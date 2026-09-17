@@ -142,10 +142,6 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
-/* Native cross-document transition where supported. Silently ignored
-   elsewhere, with no JavaScript cost. */
-@view-transition { navigation: auto; }
-
 body {
   min-height: 100vh;
   min-height: 100dvh;
