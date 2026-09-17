@@ -65,11 +65,18 @@
         <img id="get-app-qr" alt="QR code linking to this page" width="220" height="220"
              style="border-radius:16px; box-shadow:var(--shadow-2); background:#fff; padding:10px;">
         <p style="margin-top:22px;">
-          <a id="get-app-copy" class="doc-view__back" href="#">Copy link instead</a>
-          &nbsp;
           <a class="doc-view__back" href="downloads/lspid-elearning.apk" download>Download the APK file</a>
         </p>
       </div>
+    </section>
+
+    <section class="share-section" style="text-align:center; padding: 8px 18px 32px;">
+      <p style="color:var(--ink-soft); font-size:0.92rem; margin-bottom:14px;">Know someone who'd love this? Share the app with them.</p>
+      <p style="display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin:0;">
+        <a id="share-whatsapp" class="share-btn share-btn--primary" href="#" target="_blank" rel="noopener">💬 Share on WhatsApp</a>
+        <a id="share-native" class="share-btn" href="#" hidden>📤 Share&hellip;</a>
+        <a id="share-copy" class="share-btn" href="#">🔗 Copy link</a>
+      </p>
     </section>
   </main>
 
@@ -83,6 +90,8 @@
       var isAndroid = /Android/i.test(ua);
       var isIOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
       var target = isAndroid ? 'android' : (isIOS ? 'ios' : 'desktop');
+      var pageUrl = location.href;
+      var shareText = "Check out E-Learning for LSPID 📚 — free lessons, workbooks and activities. Get the app here:";
 
       document.getElementById('target-' + target).hidden = false;
       document.getElementById('get-app-subtitle').textContent = {
@@ -92,23 +101,36 @@
       }[target];
 
       if (target === 'desktop') {
-        var pageUrl = location.href;
         document.getElementById('get-app-qr').src =
           'https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=' + encodeURIComponent(pageUrl);
+      }
 
-        var copyLink = document.getElementById('get-app-copy');
-        copyLink.addEventListener('click', function (e) {
+      document.getElementById('share-whatsapp').href =
+        'https://wa.me/?text=' + encodeURIComponent(shareText + ' ' + pageUrl);
+
+      if (navigator.share) {
+        var nativeShare = document.getElementById('share-native');
+        nativeShare.hidden = false;
+        nativeShare.addEventListener('click', function (e) {
           e.preventDefault();
-          if (navigator.clipboard) {
-            navigator.clipboard.writeText(pageUrl).then(function () {
-              copyLink.textContent = 'Link copied!';
-              setTimeout(function () { copyLink.textContent = 'Copy link instead'; }, 2000);
-            });
-          } else {
-            prompt('Copy this link:', pageUrl);
-          }
+          navigator.share({ title: 'E-Learning for LSPID', text: shareText, url: pageUrl }).catch(function () {});
         });
       }
+
+      var copyLink = document.getElementById('share-copy');
+      copyLink.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(pageUrl).then(function () {
+            copyLink.textContent = '✅ Link copied!';
+            setTimeout(function () { copyLink.textContent = '🔗 Copy link'; }, 2000);
+          }, function () {
+            prompt('Copy this link:', pageUrl);
+          });
+        } else {
+          prompt('Copy this link:', pageUrl);
+        }
+      });
     })();
   </script>
 </body>

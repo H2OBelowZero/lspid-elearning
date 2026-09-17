@@ -755,6 +755,30 @@ body.a11y-reduce-motion [data-reveal] {
 .btn-home:hover::after { transform: translate3d(3px, -1px, 0) scale(1.05); }
 .btn-home:active { transform: scale(0.975); }
 
+.share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 999px;
+  background: var(--paper-sunk);
+  color: var(--color-purple-dark) !important;
+  border: 1px solid var(--hairline);
+  font-weight: 700;
+  font-size: 0.92rem;
+  text-decoration: none !important;
+  transition:
+    transform var(--dur-fast) var(--ease-spring),
+    box-shadow var(--dur-mid) var(--ease-smooth);
+}
+.share-btn:hover { transform: translate3d(0, -2px, 0); }
+.share-btn:active { transform: scale(0.975); }
+.share-btn--primary {
+  background: linear-gradient(180deg, #25d366 0%, #1da851 100%);
+  color: #fff !important;
+  box-shadow: var(--shadow-1), inset 0 1px 0 rgba(255, 255, 255, 0.30);
+}
+
 /* ------------------------------------------------------------
    11. FOOTER
    ------------------------------------------------------------ */
