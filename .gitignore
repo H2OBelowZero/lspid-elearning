@@ -8,5 +8,9 @@ android/.gradle/
 android/.idea/
 android/local.properties
 
+# Release signing secrets — never commit these
+android/keystore.properties
+android/keystore/
+
 # Netlify CLI local state
 .netlify/

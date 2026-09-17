@@ -3,6 +3,15 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
+// Release signing secrets live outside version control (see .gitignore); this file only
+// exists on machines set up to actually sign a release build.
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('keystore.properties')
+def hasKeystore = keystorePropertiesFile.exists()
+if (hasKeystore) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
 android {
     namespace 'com.lspid.elearning'
     compileSdk 34
@@ -21,6 +30,17 @@ android {
         buildConfig true
     }
 
+    signingConfigs {
+        if (hasKeystore) {
+            release {
+                storeFile rootProject.file(keystoreProperties['storeFile'])
+                storePassword keystoreProperties['storePassword']
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+            }
+        }
+    }
+
     buildTypes {
         debug {
             // localhost + `adb reverse tcp:8843 tcp:8843` reaches the project's own
@@ -33,6 +53,11 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "String", "APP_BASE_URL", "\"https://lspid-elearning.netlify.app/\""
+            // Only signed on machines with keystore.properties (see .gitignore) — an unsigned
+            // release build still works via `assembleRelease` for local inspection.
+            if (hasKeystore) {
+                signingConfig signingConfigs.release
+            }
         }
     }
 
@@ -42,6 +67,13 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+
+    lint {
+        // AGP 8.5.2's bundled lint analyzer hits the same JDK-25 JavaVersion.parse crash as the
+        // Kotlin daemon (see gradle.properties) during its release-only "lint vital" pass. Skip
+        // it here rather than on every release build until AGP ships a fix for this JDK.
+        checkReleaseBuilds = false
     }
 }
 

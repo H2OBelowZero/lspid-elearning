@@ -5,8 +5,10 @@ import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.os.Message
 import android.view.Gravity
 import android.view.View
+import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -46,6 +48,31 @@ class MainActivity : AppCompatActivity() {
             displayZoomControls = false
         }
         webView.setBackgroundColor(Color.WHITE)
+
+        // Some lesson pages link out with target="_blank" (e.g. external reading resources).
+        // With no WebChromeClient, WebView has nowhere to put that new window and on several
+        // OEM WebView builds it blanks the CURRENT page instead of just ignoring the request.
+        // Hand those off to the system browser via a throwaway WebView instead.
+        webView.settings.setSupportMultipleWindows(true)
+        webView.webChromeClient = object : WebChromeClient() {
+            override fun onCreateWindow(
+                view: WebView,
+                isDialog: Boolean,
+                isUserGesture: Boolean,
+                resultMsg: Message
+            ): Boolean {
+                val popup = WebView(this@MainActivity)
+                popup.webViewClient = object : WebViewClient() {
+                    override fun shouldOverrideUrlLoading(v: WebView, url: String): Boolean {
+                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+                        return true
+                    }
+                }
+                (resultMsg.obj as WebView.WebViewTransport).webView = popup
+                resultMsg.sendToTarget()
+                return true
+            }
+        }
 
         webView.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView, url: String?) {
