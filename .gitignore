@@ -1,0 +1,12 @@
+installer/
+.DS_Store
+
+# Android build outputs / local machine config
+android/build/
+android/app/build/
+android/.gradle/
+android/.idea/
+android/local.properties
+
+# Netlify CLI local state
+.netlify/

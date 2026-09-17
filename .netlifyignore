@@ -1,0 +1,7 @@
+installer/
+android/
+.agents/
+.claude/
+.devserver.js
+skills-lock.json
+.DS_Store

@@ -1,0 +1,549 @@
+/* ============================================================
+   E-Learning for LSPID — main theme
+   A bright, playful, accessible visual system for young learners.
+   ============================================================ */
+
+:root {
+  --color-purple:  #7c4dff;
+  --color-purple-dark: #5b32d6;
+  --color-yellow:  #ffc93c;
+  --color-blue:    #2fb6e0;
+  --color-green:   #46c46f;
+  --color-pink:    #ff6f91;
+  --color-orange:  #ff9f43;
+  --color-red:     #ff5c5c;
+
+  --ink:           #2c2846;
+  --ink-soft:      #55507a;
+  --paper:         #ffffff;
+  --bg-top:        #eef2ff;
+  --bg-bottom:     #fef6e4;
+  --card-shadow:   0 10px 24px rgba(60, 40, 120, 0.14);
+  --focus-ring:    3px solid #1d5da9;
+
+  --radius-lg: 28px;
+  --radius-md: 20px;
+  --radius-sm: 12px;
+
+  --font-heading: 'Baloo 2', 'Comic Sans MS', 'Segoe UI Rounded', Verdana, sans-serif;
+  --font-body: 'Lexend', 'Segoe UI', Verdana, Arial, sans-serif;
+
+  --font-scale: 1;
+  --line-scale: 1;
+  --letter-scale: 0;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(1200px 600px at 10% -10%, #e6ecff 0%, transparent 60%),
+    radial-gradient(1000px 500px at 110% 0%, #fff0d9 0%, transparent 55%),
+    linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+  background-attachment: fixed;
+  font-family: var(--font-body);
+  color: var(--ink);
+  font-size: calc(16px * var(--font-scale));
+  line-height: calc(1.5 * var(--line-scale));
+  letter-spacing: calc(var(--letter-scale) * 1px);
+}
+
+h1, h2, h3, h4, .site-logo__text {
+  font-family: var(--font-heading);
+  color: var(--color-purple-dark);
+}
+
+a { color: var(--color-purple-dark); }
+
+::selection { background: var(--color-yellow); color: var(--ink); }
+
+/* Focus visibility for keyboard users */
+a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  background: var(--color-purple);
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 0 0 12px 0;
+  z-index: 10000;
+  font-weight: 700;
+}
+.skip-link:focus {
+  left: 0;
+}
+
+/* ---------------- Layout container ---------------- */
+.ag-format-container {
+  width: min(1180px, 94%);
+  margin: 0 auto;
+  padding-bottom: 60px;
+}
+
+/* ---------------- Site header ---------------- */
+.site-header {
+  background: linear-gradient(90deg, var(--color-purple) 0%, #9b6bff 100%);
+  box-shadow: 0 4px 18px rgba(90, 50, 180, 0.25);
+  padding: 14px 0;
+  margin-bottom: 28px;
+}
+.site-header__inner {
+  width: min(1180px, 94%);
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 24px;
+}
+.site-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none !important;
+  font-weight: 800;
+}
+.site-logo__icon { font-size: 1.7rem; }
+.site-logo__text {
+  color: #fff;
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.95rem;
+  color: #f1ecff;
+}
+.breadcrumb a {
+  color: #fff;
+  text-decoration: none;
+  background: rgba(255,255,255,0.16);
+  padding: 4px 10px;
+  border-radius: 999px;
+  transition: background .2s ease;
+}
+.breadcrumb a:hover { background: rgba(255,255,255,0.32); text-decoration: none; }
+.breadcrumb span.sep { opacity: .7; padding: 0 2px; }
+.breadcrumb span[aria-current] {
+  background: #fff;
+  color: var(--color-purple-dark);
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+/* ---------------- Page hero ---------------- */
+.page-hero {
+  text-align: center;
+  margin: 10px 0 34px;
+}
+.page-hero__icon {
+  font-size: 3.4rem;
+  line-height: 1;
+  display: inline-block;
+  animation: hero-pop .5s ease;
+}
+@keyframes hero-pop {
+  0% { transform: scale(0.5) rotate(-8deg); opacity: 0; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+.page-hero__title {
+  font-size: clamp(1.6rem, 1.1rem + 2vw, 2.6rem);
+  margin: 6px 0 10px;
+  font-weight: 800;
+}
+.page-hero__rule {
+  width: 90px;
+  height: 6px;
+  border-radius: 6px;
+  margin: 0 auto 6px;
+  background: linear-gradient(90deg, var(--color-yellow), var(--color-pink));
+}
+.page-hero__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 14px;
+  padding: 8px 18px;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--color-purple-dark) !important;
+  font-weight: 700;
+  text-decoration: none !important;
+  box-shadow: var(--card-shadow);
+  transition: transform .15s ease;
+}
+.page-hero__back:hover { transform: translateY(-2px); }
+
+/* ---------------- Course cards grid ---------------- */
+.ag-courses_box {
+  display: flex;
+  align-items: stretch;
+  flex-wrap: wrap;
+  gap: 22px;
+  padding: 10px 0 40px;
+}
+.ag-courses_item {
+  flex-basis: calc(25% - 22px);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.ag-courses-item_link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  height: 100%;
+  padding: 30px 16px 22px;
+  background: var(--paper);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--card-shadow);
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  text-decoration: none !important;
+  color: var(--ink) !important;
+  border: 3px solid transparent;
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.ag-courses-item_link:hover,
+.ag-courses-item_link:focus-visible {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 18px 30px rgba(60, 40, 120, 0.22);
+  border-color: var(--color-yellow);
+  text-decoration: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ag-courses-item_link { transition: none; }
+  .ag-courses-item_link:hover { transform: none; }
+}
+
+.ag-courses-item_bg {
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: var(--color-orange);
+  opacity: .18;
+  z-index: 0;
+  transition: transform .5s ease;
+}
+.ag-courses-item_link:hover .ag-courses-item_bg { transform: scale(1.4); }
+.ag-courses_item:nth-child(6n+2) .ag-courses-item_bg { background: var(--color-green); }
+.ag-courses_item:nth-child(6n+3) .ag-courses-item_bg { background: var(--color-red); }
+.ag-courses_item:nth-child(6n+4) .ag-courses-item_bg { background: var(--color-purple); }
+.ag-courses_item:nth-child(6n+5) .ag-courses-item_bg { background: var(--color-pink); }
+.ag-courses_item:nth-child(6n+6) .ag-courses-item_bg { background: var(--color-blue); }
+
+.ag-courses-item_icon {
+  font-size: 2.6rem;
+  z-index: 1;
+  line-height: 1;
+}
+.ag-courses-item_title {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.08rem;
+  z-index: 1;
+  min-height: 0;
+}
+.ag-courses-item_tag {
+  z-index: 1;
+  display: inline-block;
+  margin-top: auto;
+  padding: 3px 12px;
+  border-radius: 999px;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  background: #eef0ff;
+  color: var(--color-purple-dark);
+}
+.ag-courses-item_tag--soon {
+  background: #fff3cf;
+  color: #8a6400;
+}
+.ag-courses_item--empty .ag-courses-item_link { opacity: .85; }
+
+/* ---------------- Empty / "coming soon" state ---------------- */
+.empty-state {
+  text-align: center;
+  background: #fff;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--card-shadow);
+  padding: 50px 24px;
+  margin: 10px 0 40px;
+}
+.empty-state__emoji {
+  font-size: 3.2rem;
+  margin-bottom: 10px;
+}
+.empty-state h2 {
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+}
+.empty-state p {
+  color: var(--ink-soft);
+  max-width: 50ch;
+  margin: 0 auto 20px;
+}
+
+.btn-home {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 22px;
+  border-radius: 999px;
+  background: var(--color-purple);
+  color: #fff !important;
+  font-weight: 700;
+  text-decoration: none !important;
+  box-shadow: var(--card-shadow);
+  transition: transform .15s ease, background .15s ease;
+}
+.btn-home:hover { transform: translateY(-2px); background: var(--color-purple-dark); }
+
+/* ---------------- Footer ---------------- */
+.site-footer {
+  text-align: center;
+  padding: 26px 16px 50px;
+  color: var(--ink-soft);
+  font-size: .95rem;
+}
+.site-footer a { color: var(--color-purple-dark); font-weight: 700; }
+
+/* ---------------- Home page hero banner ---------------- */
+.home-banner {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  position: relative;
+  margin: 18px 0 30px;
+  box-shadow: var(--card-shadow);
+  background: linear-gradient(120deg, var(--color-purple), var(--color-blue));
+  padding: 46px 24px;
+  text-align: center;
+  color: #fff;
+}
+.home-banner h1 {
+  color: #fff;
+  font-size: clamp(1.8rem, 1.2rem + 2.4vw, 3rem);
+  margin-bottom: 10px;
+}
+.home-banner p {
+  font-size: 1.05rem;
+  max-width: 60ch;
+  margin: 0 auto;
+  opacity: .95;
+}
+.home-banner__emojis {
+  font-size: 2rem;
+  margin-bottom: 8px;
+  letter-spacing: 8px;
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media only screen and (max-width: 979px) {
+  .ag-courses_item { flex-basis: calc(50% - 22px); }
+}
+@media only screen and (max-width: 639px) {
+  .ag-courses_item { flex-basis: 100%; }
+  .site-header__inner { flex-direction: column; align-items: flex-start; }
+}
+
+/* ============================================================
+   Accessibility toolkit — states toggled by assets/a11y.js
+   ============================================================ */
+
+/* Dyslexia-friendly mode: a highly legible font + generous spacing */
+body.a11y-dyslexia, body.a11y-dyslexia h1, body.a11y-dyslexia h2,
+body.a11y-dyslexia h3, body.a11y-dyslexia h4, body.a11y-dyslexia .ag-courses-item_title {
+  font-family: 'Comic Sans MS', 'Lexend', var(--font-body) !important;
+}
+body.a11y-dyslexia {
+  letter-spacing: .03em;
+  word-spacing: .12em;
+  line-height: 1.8 !important;
+}
+body.a11y-dyslexia p, body.a11y-dyslexia .empty-state p {
+  max-width: 42ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* High contrast */
+body.a11y-contrast {
+  --bg-top: #000;
+  --bg-bottom: #000;
+  --ink: #fff;
+  --ink-soft: #ffe;
+  --paper: #111;
+  --card-shadow: 0 0 0 2px #fff;
+}
+body.a11y-contrast { background: #000; }
+body.a11y-contrast .ag-courses-item_link { border-color: #fff; }
+body.a11y-contrast a { color: #ffe066 !important; }
+body.a11y-contrast .site-header { background: #000; border-bottom: 3px solid #fff; }
+body.a11y-contrast .ag-courses-item_tag { background: #222; color: #ffe066; }
+
+/* Big cursor */
+body.a11y-big-cursor, body.a11y-big-cursor * { cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24"><path fill="%237c4dff" stroke="white" stroke-width="1" d="M3 2l16 8-6.5 2L10 20z"/></svg>') 2 2, auto !important; }
+
+/* Reading ruler / focus line */
+#a11y-reading-ruler {
+  position: fixed;
+  left: 0; right: 0;
+  height: 40px;
+  background: rgba(255, 201, 60, 0.28);
+  border-top: 2px solid rgba(124,77,255,.6);
+  border-bottom: 2px solid rgba(124,77,255,.6);
+  pointer-events: none;
+  z-index: 9998;
+  display: none;
+}
+body.a11y-ruler-on #a11y-reading-ruler { display: block; }
+
+/* Reduce motion (manual override, independent of OS setting) */
+body.a11y-reduce-motion * {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* Bionic reading emphasis */
+.a11y-bionic-strong { font-weight: 800; }
+
+/* Bigger text mode extra bump handled via --font-scale set in JS */
+
+/* ---------------- Accessibility toolbar (built by a11y.js) --------- */
+#a11y-toggle {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 9999;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, var(--color-purple), var(--color-pink));
+  color: #fff;
+  font-size: 1.6rem;
+  box-shadow: 0 8px 20px rgba(60,40,120,.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#a11y-toggle:hover { transform: scale(1.06); }
+
+#a11y-panel {
+  position: fixed;
+  right: 18px;
+  bottom: 86px;
+  z-index: 9999;
+  width: 300px;
+  max-width: calc(100vw - 36px);
+  max-height: min(70vh, 560px);
+  overflow-y: auto;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 16px 40px rgba(30,20,70,.3);
+  padding: 16px;
+  font-family: var(--font-body);
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.4;
+}
+#a11y-panel[hidden] { display: none; }
+#a11y-panel h2 {
+  font-size: 1.05rem;
+  margin: 0 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.a11y-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 9px 6px;
+  border-radius: 10px;
+}
+.a11y-row:hover { background: #f5f3ff; }
+.a11y-row span.a11y-row__label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: .92rem;
+}
+.a11y-switch {
+  width: 42px;
+  height: 24px;
+  border-radius: 999px;
+  background: #ddd;
+  border: none;
+  position: relative;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.a11y-switch::after {
+  content: '';
+  position: absolute;
+  top: 3px; left: 3px;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  transition: left .15s ease;
+  box-shadow: 0 1px 3px rgba(0,0,0,.3);
+}
+.a11y-switch[aria-pressed="true"] { background: var(--color-green); }
+.a11y-switch[aria-pressed="true"]::after { left: 21px; }
+
+.a11y-stepper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.a11y-stepper button {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: var(--color-purple);
+  color: #fff;
+  font-weight: 800;
+  font-size: 1rem;
+  line-height: 1;
+}
+.a11y-hr { border: none; border-top: 1px solid #eee; margin: 8px 0; }
+.a11y-reset {
+  width: 100%;
+  margin-top: 6px;
+  padding: 8px;
+  border-radius: 10px;
+  border: none;
+  background: #f2f0fa;
+  color: var(--color-purple-dark);
+  font-weight: 700;
+  cursor: pointer;
+}
+.a11y-reset:hover { background: #e6e1fb; }

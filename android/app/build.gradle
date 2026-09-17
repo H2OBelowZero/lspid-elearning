@@ -1,0 +1,51 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    namespace 'com.lspid.elearning'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.lspid.elearning"
+        // 21 covers the low-end devices this app targets; a plain WebView shell has no
+        // native code, so there's nothing pulling the floor higher.
+        minSdk 21
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildFeatures {
+        buildConfig true
+    }
+
+    buildTypes {
+        debug {
+            // localhost + `adb reverse tcp:8843 tcp:8843` reaches the project's own
+            // `node .devserver.js` (see ../../.claude/launch.json) from a real USB-connected
+            // device. Testing on the emulator instead? Use 10.0.2.2, its alias for host localhost.
+            buildConfigField "String", "APP_BASE_URL", "\"http://localhost:8843/\""
+        }
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "APP_BASE_URL", "\"https://lspid-elearning.netlify.app/\""
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    implementation 'androidx.core:core-ktx:1.13.1'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+}
