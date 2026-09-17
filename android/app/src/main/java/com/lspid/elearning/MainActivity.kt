@@ -9,6 +9,8 @@ import android.os.Message
 import android.view.Gravity
 import android.view.View
 import android.webkit.WebChromeClient
+import android.webkit.WebResourceError
+import android.webkit.WebResourceRequest
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -75,12 +77,24 @@ class MainActivity : AppCompatActivity() {
         }
 
         webView.webViewClient = object : WebViewClient() {
+            override fun onPageStarted(view: WebView, url: String?, favicon: android.graphics.Bitmap?) {
+                progressBar.visibility = View.VISIBLE
+            }
+
             override fun onPageFinished(view: WebView, url: String?) {
                 progressBar.visibility = View.GONE
             }
 
-            override fun onReceivedError(view: WebView, errorCode: Int, description: String?, failingUrl: String?) {
-                if (failingUrl == view.url) view.loadUrl("file:///android_asset/offline.html")
+            // On slow connections/devices, tapping a new link before the current page finishes
+            // aborts that in-flight load, which WebView reports here as ERROR_UNKNOWN for the
+            // OLD page's own URL. The previous code treated that the same as a real failure and
+            // redirected to offline.html, cancelling the brand-new navigation the user just
+            // started — the app looked frozen, then wrongly claimed there was no connection.
+            // Only main-frame errors that aren't a superseded/aborted load are real failures.
+            override fun onReceivedError(view: WebView, request: WebResourceRequest, error: WebResourceError) {
+                if (request.isForMainFrame && error.errorCode != ERROR_UNKNOWN) {
+                    view.loadUrl("file:///android_asset/offline.html")
+                }
             }
         }
 
