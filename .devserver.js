@@ -11,6 +11,7 @@ const MIME = {
   '.css': 'text/css; charset=utf-8',
   '.js': 'application/javascript; charset=utf-8',
   '.pdf': 'application/pdf',
+  '.apk': 'application/vnd.android.package-archive',
   '.png': 'image/png',
   '.jpg': 'image/jpeg',
   '.jpeg': 'image/jpeg',

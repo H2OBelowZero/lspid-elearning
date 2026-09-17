@@ -92,6 +92,13 @@
   --my: 0%;
 }
 
+/* reset.css sets display:block on every HTML5 sectioning element (article,
+   section, header, footer, etc.) as an author-origin rule, which beats the
+   browser's own [hidden]{display:none} UA rule regardless of specificity —
+   author styles always win over UA styles. Without this, the hidden
+   attribute silently does nothing on any of those elements. */
+[hidden] { display: none !important; }
+
 /* Dark mode. Same hierarchy and brand identity, re-grounded on a warm
    charcoal rather than pure black. */
 @media (prefers-color-scheme: dark) {

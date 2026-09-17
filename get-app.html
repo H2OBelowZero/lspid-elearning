@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#7c4dff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#141024" media="(prefers-color-scheme: dark)">
+  <meta name="color-scheme" content="light dark">
+  <title>Get the App · E-Learning for LSPID</title>
+  <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/css.css">
+  <script src="assets/motion.js"></script>
+  <script defer src="assets/a11y.js"></script>
+</head>
+
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="site-logo" href="index.html">
+        <span class="site-logo__icon">🎓</span>
+        <span class="site-logo__text">E-Learning for LSPID</span>
+      </a>
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">🏠 Home</a>
+        <span class="sep">›</span><span aria-current="page">Get the App</span>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content" class="ag-format-container">
+    <div class="home-banner">
+      <div class="home-banner__emojis">📲 📚 🎓</div>
+      <span class="home-banner__eyebrow">Take it with you</span>
+      <h1>Get E-Learning for LSPID on your phone</h1>
+      <p id="get-app-subtitle">Figuring out the best way to get you the app&hellip;</p>
+    </div>
+
+    <section id="target-android" class="doc-view" hidden>
+      <div class="doc-view__stage" style="text-align:center; padding: 32px 18px;">
+        <p style="font-size:1.1rem; margin-bottom:22px;">You're on Android — tap below to download the app.</p>
+        <a class="doc-view__open" href="downloads/lspid-elearning.apk" download>Download for Android</a>
+        <p style="margin-top:22px; color:var(--ink-soft); font-size:0.92rem; max-width:46ch; margin-left:auto; margin-right:auto;">
+          Your phone may warn that this isn't from the Play Store — that's expected for an app shared directly.
+          Tap <strong>Install anyway</strong> / allow installs from this source when asked.
+        </p>
+      </div>
+    </section>
+
+    <section id="target-ios" class="doc-view" hidden>
+      <div class="doc-view__stage" style="text-align:center; padding: 32px 18px;">
+        <p style="font-size:1.1rem; margin-bottom:22px;">The app is Android-only for now, but the full site works great right here in Safari.</p>
+        <a class="doc-view__back" href="index.html">Open the website</a>
+      </div>
+    </section>
+
+    <section id="target-desktop" class="doc-view" hidden>
+      <div class="doc-view__stage" style="text-align:center; padding: 32px 18px;">
+        <p style="font-size:1.1rem; margin-bottom:18px;">Scan this with your Android phone's camera to open this page there:</p>
+        <img id="get-app-qr" alt="QR code linking to this page" width="220" height="220"
+             style="border-radius:16px; box-shadow:var(--shadow-2); background:#fff; padding:10px;">
+        <p style="margin-top:22px;">
+          <a id="get-app-copy" class="doc-view__back" href="#">Copy link instead</a>
+          &nbsp;
+          <a class="doc-view__back" href="downloads/lspid-elearning.apk" download>Download the APK file</a>
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Made with 💛 for LSPID learners - <a href="index.html">Back to Home</a></p>
+  </footer>
+
+  <script>
+    (function () {
+      var ua = navigator.userAgent || '';
+      var isAndroid = /Android/i.test(ua);
+      var isIOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      var target = isAndroid ? 'android' : (isIOS ? 'ios' : 'desktop');
+
+      document.getElementById('target-' + target).hidden = false;
+      document.getElementById('get-app-subtitle').textContent = {
+        android: "You're on an Android device — grab the app below.",
+        ios: "You're on an iOS device.",
+        desktop: "You're on a computer — scan the QR code below with your Android phone."
+      }[target];
+
+      if (target === 'desktop') {
+        var pageUrl = location.href;
+        document.getElementById('get-app-qr').src =
+          'https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=' + encodeURIComponent(pageUrl);
+
+        var copyLink = document.getElementById('get-app-copy');
+        copyLink.addEventListener('click', function (e) {
+          e.preventDefault();
+          if (navigator.clipboard) {
+            navigator.clipboard.writeText(pageUrl).then(function () {
+              copyLink.textContent = 'Link copied!';
+              setTimeout(function () { copyLink.textContent = 'Copy link instead'; }, 2000);
+            });
+          } else {
+            prompt('Copy this link:', pageUrl);
+          }
+        });
+      }
+    })();
+  </script>
+</body>
+
+</html>

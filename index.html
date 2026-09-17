@@ -38,6 +38,7 @@
       <span class="home-banner__eyebrow">Learning made reachable</span>
       <h1>Welcome to E-Learning for LSPID!</h1>
       <p>Pick a subject or a year below to start exploring lessons, workbooks and fun activities. Use the 🧩 button in the corner any time for reading and accessibility tools!</p>
+      <a id="share-app-btn" class="btn-home" href="get-app.html" style="margin-top:18px;">📲 Get this app on your phone</a>
     </div>
     <div class="ag-courses_box">
       <div class="ag-courses_item">
@@ -126,6 +127,24 @@
   <footer class="site-footer">
     <p>Made with 💛 for LSPID learners - <a href="index.html">Back to Home</a></p>
   </footer>
+
+  <script>
+    (function () {
+      var btn = document.getElementById('share-app-btn');
+      if (!btn || !navigator.share) return;
+      // Where supported (mostly mobile), hand off to the native share sheet
+      // instead of just navigating — recipients get a link they can open
+      // themselves via WhatsApp/SMS/etc. Plain navigation is the fallback.
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        navigator.share({
+          title: 'E-Learning for LSPID',
+          text: 'Get the E-Learning for LSPID app',
+          url: new URL('get-app.html', location.href).href
+        }).catch(function () {});
+      });
+    })();
+  </script>
 </body>
 
 </html>
