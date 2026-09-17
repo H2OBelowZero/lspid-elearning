@@ -101,8 +101,28 @@
       }[target];
 
       if (target === 'desktop') {
-        document.getElementById('get-app-qr').src =
-          'https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=' + encodeURIComponent(pageUrl);
+        var qrImg = document.getElementById('get-app-qr');
+        var fallbackToRemoteQr = function () {
+          qrImg.src = 'https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=' + encodeURIComponent(pageUrl);
+        };
+        // Generated locally so the code always encodes exactly this URL — no
+        // dependency on a third-party image API being reachable or correct
+        // at scan time. Only falls back to that API if the tiny library
+        // itself can't load (e.g. the CDN is blocked).
+        var qrScript = document.createElement('script');
+        qrScript.src = 'https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js';
+        qrScript.onload = function () {
+          try {
+            var qr = qrcode(0, 'M');
+            qr.addData(pageUrl);
+            qr.make();
+            qrImg.src = qr.createDataURL(6, 2);
+          } catch (e) {
+            fallbackToRemoteQr();
+          }
+        };
+        qrScript.onerror = fallbackToRemoteQr;
+        document.head.appendChild(qrScript);
       }
 
       document.getElementById('share-whatsapp').href =
