@@ -49,7 +49,7 @@ android {
     androidResources {
         // The default pattern also drops every folder starting with '_' (all the _view/ document pages).
         ignoreAssetsPattern = '!.svn:!.git:!.ds_store:!*.scc:!CVS:!thumbs.db:!picasa.ini:!*~'
-        noCompress += ['pdf', 'docx', 'pptx', 'doc', 'png', 'jpg', 'jpeg', 'jfif', 'gif', 'html', 'css', 'js', 'svg']
+        noCompress += ['pdf', 'docx', 'pptx', 'doc', 'png', 'jpg', 'jpeg', 'jfif', 'gif', 'html', 'css', 'js', 'svg', 'woff2']
     }
 
     sourceSets {
