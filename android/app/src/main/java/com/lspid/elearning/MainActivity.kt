@@ -6,11 +6,17 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.os.Message
+import android.webkit.MimeTypeMap
+import android.widget.Toast
+import androidx.core.content.FileProvider
+import java.io.File
+import java.io.FileNotFoundException
 import android.view.Gravity
 import android.view.View
 import android.webkit.WebChromeClient
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
+import android.webkit.WebResourceResponse
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -18,6 +24,7 @@ import android.widget.FrameLayout
 import android.widget.ProgressBar
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
+import android.content.ActivityNotFoundException
 
 /**
  * Whole app is one WebView pointed at [BuildConfig.APP_BASE_URL]. The site already is the
@@ -26,6 +33,20 @@ import androidx.appcompat.app.AppCompatActivity
  */
 class MainActivity : AppCompatActivity() {
 
+    private companion object {
+        // Virtual https origin the full build serves its bundled site from (assets/site/).
+        // A real https origin, unlike file://, keeps relative links, fetch() and storage working.
+        const val ASSET_HOST = "appassets.androidplatform.net"
+        const val ASSET_ORIGIN = "https://$ASSET_HOST/"
+        // The WebView can't show these; hand them to whatever viewer the phone has.
+        val EXTERNAL_DOCS = setOf("pdf", "doc", "docx", "ppt", "pptx", "xls", "xlsx")
+
+        // WebView stays blank on a PDF iframe, so the viewer pages get a button that
+        // navigates to the file instead, which openAsset() then intercepts.
+        const val PDF_FIX_JS = """(function(){var f=document.querySelector('iframe.doc-view__frame');if(!f||!/\.(pdf|docx?|pptx?)([?#]|$)/i.test(f.src))return;var a=document.createElement('a');a.className='btn-home';a.href=f.src;a.textContent='Open document';var p=document.createElement('p');p.style.cssText='text-align:center;padding:40px 16px';p.appendChild(a);f.replaceWith(p);})();"""
+        const val HIDE_GET_APP_JS = """(function(){var b=document.getElementById('share-app-btn');if(b)b.hidden=true;})();"""
+    }
+
     private lateinit var webView: WebView
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -33,6 +54,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         if (BuildConfig.DEBUG) WebView.setWebContentsDebuggingEnabled(true)
+        File(cacheDir, "docs").deleteRecursively() // copies made for external viewers on a previous run
 
         webView = WebView(this)
         val progressBar = ProgressBar(this).apply { isIndeterminate = true }
@@ -85,6 +107,26 @@ class MainActivity : AppCompatActivity() {
 
             override fun onPageFinished(view: WebView, url: String?) {
                 progressBar.visibility = View.GONE
+                if (BuildConfig.OFFLINE_BUNDLE) {
+                    view.evaluateJavascript(PDF_FIX_JS, null)
+                    view.evaluateJavascript(HIDE_GET_APP_JS, null) // the app is already installed
+                }
+            }
+
+            override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
+                val uri = request.url
+                if (uri.host != ASSET_HOST) return false
+                val path = uri.path.orEmpty()
+                if (path.substringAfterLast('.', "").lowercase() in EXTERNAL_DOCS) {
+                    openAsset(path.trimStart('/'))
+                    return true
+                }
+                return false
+            }
+
+            override fun shouldInterceptRequest(view: WebView, request: WebResourceRequest): WebResourceResponse? {
+                if (!BuildConfig.OFFLINE_BUNDLE || request.url.host != ASSET_HOST) return null
+                return serveAsset(request.url.path.orEmpty().trimStart('/'))
             }
 
             // On slow connections/devices, tapping a new link before the current page finishes
@@ -103,7 +145,9 @@ class MainActivity : AppCompatActivity() {
         // The lesson PDFs/DOCX aren't renderable in a WebView; let the OS's own viewer/chooser
         // handle them instead of building a downloader.
         webView.setDownloadListener { url, _, _, _, _ ->
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+            val uri = Uri.parse(url)
+            if (uri.host == ASSET_HOST) openAsset(uri.path.orEmpty().trimStart('/'))
+            else startActivity(Intent(Intent.ACTION_VIEW, uri))
         }
 
         onBackPressedDispatcher.addCallback(this) {
@@ -113,7 +157,50 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        webView.loadUrl(BuildConfig.APP_BASE_URL)
+        webView.loadUrl(if (BuildConfig.OFFLINE_BUNDLE) ASSET_ORIGIN + "index.html" else BuildConfig.APP_BASE_URL)
+    }
+
+    /** Streams assets/site/<path> to the WebView; folders resolve to their index.html. */
+    private fun serveAsset(rawPath: String): WebResourceResponse {
+        var path = rawPath
+        if (path.isEmpty() || path.endsWith("/")) path += "index.html"
+        val stream = try {
+            assets.open("site/$path")
+        } catch (e: FileNotFoundException) {
+            try {
+                path = path.trimEnd('/') + "/index.html" // a folder written without its trailing slash
+                assets.open("site/$path")
+            } catch (e2: FileNotFoundException) {
+                return WebResourceResponse("text/plain", "utf-8", 404, "Not Found", emptyMap(), "Not found".byteInputStream())
+            }
+        }
+        val ext = path.substringAfterLast('.', "").lowercase()
+        val mime = MimeTypeMap.getSingleton().getMimeTypeFromExtension(ext) ?: when (ext) {
+            "jfif" -> "image/jpeg"
+            else -> "application/octet-stream"
+        }
+        val isText = mime.startsWith("text/") || mime == "application/javascript" || mime == "image/svg+xml"
+        return WebResourceResponse(mime, if (isText) "utf-8" else null, stream)
+    }
+
+    /** Copies a bundled document out of the APK and opens it in the phone's own viewer. */
+    private fun openAsset(path: String) {
+        try {
+            val out = File(File(cacheDir, "docs").apply { mkdirs() }, path.substringAfterLast('/'))
+            if (!out.exists()) assets.open("site/$path").use { i -> out.outputStream().use { i.copyTo(it) } }
+            val ext = out.extension.lowercase()
+            val mime = MimeTypeMap.getSingleton().getMimeTypeFromExtension(ext) ?: "*/*"
+            val uri = FileProvider.getUriForFile(this, "$packageName.docs", out)
+            startActivity(
+                Intent(Intent.ACTION_VIEW)
+                    .setDataAndType(uri, mime)
+                    .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_ACTIVITY_NEW_TASK)
+            )
+        } catch (e: ActivityNotFoundException) {
+            Toast.makeText(this, "No app on this phone can open this document", Toast.LENGTH_LONG).show()
+        } catch (e: Exception) {
+            Toast.makeText(this, "Couldn't open this document", Toast.LENGTH_LONG).show()
+        }
     }
 
     override fun onDestroy() {

@@ -26,8 +26,39 @@ android {
         versionName "1.0"
     }
 
+    // full: every lesson, PDF and Word/PowerPoint document is packed inside the APK and served
+    // locally, so nothing needs a connection. lite: the small online-only shell (APP_BASE_URL).
+    flavorDimensions 'content'
+    productFlavors {
+        full {
+            dimension 'content'
+            applicationIdSuffix '.full'
+            versionNameSuffix '-full'
+            buildConfigField 'boolean', 'OFFLINE_BUNDLE', 'true'
+            resValue 'string', 'app_name', 'mySDLR'
+        }
+        lite {
+            dimension 'content'
+            buildConfigField 'boolean', 'OFFLINE_BUNDLE', 'false'
+            resValue 'string', 'app_name', 'E-Learning for LSPID'
+        }
+    }
+
+    // The bundle is already-compressed media; storing it raw keeps installs fast and lets
+    // the WebView stream assets without inflating them.
+    androidResources {
+        // The default pattern also drops every folder starting with '_' (all the _view/ document pages).
+        ignoreAssetsPattern = '!.svn:!.git:!.ds_store:!*.scc:!CVS:!thumbs.db:!picasa.ini:!*~'
+        noCompress += ['pdf', 'docx', 'pptx', 'doc', 'png', 'jpg', 'jpeg', 'jfif', 'gif', 'html', 'css', 'js', 'svg']
+    }
+
+    sourceSets {
+        full.assets.srcDir layout.buildDirectory.dir('siteAssets')
+    }
+
     buildFeatures {
         buildConfig true
+        resValues true
     }
 
     signingConfigs {
@@ -75,6 +106,21 @@ android {
         // it here rather than on every release build until AGP ships a fix for this JDK.
         checkReleaseBuilds = false
     }
+}
+
+// Copies the website (repo root) into <assets>/site for the full flavor. Everything that isn't
+// the site itself (Android project, installer, tooling, APKs) is left out.
+def siteSync = tasks.register('syncSiteAssets', Sync) {
+    from(rootProject.projectDir.parentFile) {
+        exclude 'android/**', 'installer/**', 'downloads/**', '.git/**', '.agents/**', '.claude/**',
+                '.serena/**', 'graphify-out/**', 'node_modules/**', '.netlify/**',
+                '.devserver.js', 'skills-lock.json', '.netlifyignore', '.gitignore', '_headers',
+                'README.md', '**/.DS_Store'
+    }
+    into layout.buildDirectory.dir('siteAssets/site')
+}
+tasks.configureEach { t ->
+    if (t.name ==~ /merge.*Full.*Assets|lintVital.*Full.*|generate.*Full.*LintReportModel/) t.dependsOn siteSync
 }
 
 dependencies {

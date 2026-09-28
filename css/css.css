@@ -12,56 +12,64 @@
    ------------------------------------------------------------ */
 :root {
   /* Brand hues, preserved from the original system */
-  --color-purple:       #7c4dff;
-  --color-purple-dark:  #5326c9;
-  --color-purple-deep:  #3d1b96;
-  --color-yellow:       #ffc93c;
-  --color-blue:         #2fb6e0;
-  --color-green:        #46c46f;
-  --color-pink:         #ff6f91;
-  --color-orange:       #ff9f43;
-  --color-red:          #ff5c5c;
+  /* Sampled from the mySDLR logo: "my" blue, S pink-red, D green,
+     L yellow, R orange. --color-purple is kept as the name of the
+     primary role (now the logo blue) so every rule that uses it follows. */
+  --color-purple:       #1398d6;
+  --color-purple-dark:  #0b6fa8;
+  --color-purple-deep:  #084e78;
+  --color-yellow:       #fdb813;
+  --color-blue:         #2aa9e0;
+  --color-green:        #7ac142;
+  --color-pink:         #e8365d;
+  --color-orange:       #f58220;
+  --color-red:          #e8365d;
+  /* Badge orange: buttons and highlights, always with dark ink text */
+  --badge-top:          #fbb116;
+  --badge-bottom:       #f47b20;
+  --on-badge:           #3a1c00;
+  --logo-stripe: linear-gradient(90deg, #2aa9e0 0 20%, #e8365d 20% 40%, #7ac142 40% 60%, #fdb813 60% 80%, #f58220 80% 100%);
 
   /* Tints used for plates and washes */
-  --tint-purple: #efe9ff;
-  --tint-yellow: #fff3d4;
-  --tint-blue:   #e2f5fc;
-  --tint-green:  #e2f7e9;
-  --tint-pink:   #ffe8ee;
-  --tint-orange: #fff0e0;
+  --tint-purple: #e1f2fb;
+  --tint-yellow: #fff2cc;
+  --tint-blue:   #dff2fb;
+  --tint-green:  #e6f4d9;
+  --tint-pink:   #fde3ea;
+  --tint-orange: #ffeadb;
 
-  --ink:         #251f42;
-  --ink-soft:    #5c5685;
-  --ink-faint:   #857fae;
+  --ink:         #1c2a3a;
+  --ink-soft:    #4a5b70;
+  --ink-faint:   #6b7c92;
   --paper:       #ffffff;
-  --paper-sunk:  #f7f5ff;
-  --hairline:    rgba(60, 40, 120, 0.10);
-  --hairline-strong: rgba(60, 40, 120, 0.16);
-  --shell:       rgba(124, 77, 255, 0.055);
+  --paper-sunk:  #f3f9fd;
+  --hairline:    rgba(14, 62, 100, 0.10);
+  --hairline-strong: rgba(14, 62, 100, 0.17);
+  --shell:       rgba(19, 152, 214, 0.06);
 
-  --bg-top:      #eef1ff;
-  --bg-bottom:   #fdf5e6;
+  --bg-top:      #eaf6fc;
+  --bg-bottom:   #fff4e2;
 
   /* Layered ambient elevation. Several low-opacity stops tinted toward
      the background rather than one hard black drop shadow. */
   --shadow-1:
-    0 1px 1px rgba(46, 28, 105, 0.035),
-    0 2px 4px rgba(46, 28, 105, 0.035),
-    0 6px 12px rgba(46, 28, 105, 0.04);
+    0 1px 1px rgba(14, 62, 100, 0.035),
+    0 2px 4px rgba(14, 62, 100, 0.035),
+    0 6px 12px rgba(14, 62, 100, 0.04);
   --shadow-2:
-    0 1px 1px rgba(46, 28, 105, 0.04),
-    0 3px 7px rgba(46, 28, 105, 0.045),
-    0 10px 22px rgba(46, 28, 105, 0.055),
-    0 22px 44px rgba(46, 28, 105, 0.045);
+    0 1px 1px rgba(14, 62, 100, 0.04),
+    0 3px 7px rgba(14, 62, 100, 0.045),
+    0 10px 22px rgba(14, 62, 100, 0.055),
+    0 22px 44px rgba(14, 62, 100, 0.045);
   --shadow-3:
-    0 2px 3px rgba(46, 28, 105, 0.05),
-    0 8px 16px rgba(46, 28, 105, 0.07),
-    0 20px 40px rgba(46, 28, 105, 0.09),
-    0 36px 72px rgba(46, 28, 105, 0.07);
+    0 2px 3px rgba(14, 62, 100, 0.05),
+    0 8px 16px rgba(14, 62, 100, 0.07),
+    0 20px 40px rgba(14, 62, 100, 0.09),
+    0 36px 72px rgba(14, 62, 100, 0.07);
   --shadow-inset-top: inset 0 1px 0 rgba(255, 255, 255, 0.85);
   --card-shadow: var(--shadow-2);
 
-  --focus-ring: 3px solid #1d5da9;
+  --focus-ring: 3px solid #084e78;
 
   /* Concentric radii. Inner core radius = outer radius minus shell padding. */
   --shell-pad: 7px;
@@ -103,35 +111,35 @@
    charcoal rather than pure black. */
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-purple:      #a688ff;
-    --color-purple-dark: #c9b6ff;
-    --color-purple-deep: #d8ccff;
+    --color-purple:      #4fbdf0;
+    --color-purple-dark: #86d3f7;
+    --color-purple-deep: #b6e5fb;
 
-    --tint-purple: rgba(166, 136, 255, 0.16);
-    --tint-yellow: rgba(255, 201, 60, 0.16);
-    --tint-blue:   rgba(47, 182, 224, 0.16);
-    --tint-green:  rgba(70, 196, 111, 0.16);
-    --tint-pink:   rgba(255, 111, 145, 0.16);
-    --tint-orange: rgba(255, 159, 67, 0.14);
+    --tint-purple: rgba(79, 189, 240, 0.16);
+    --tint-yellow: rgba(253, 184, 19, 0.16);
+    --tint-blue:   rgba(42, 169, 224, 0.16);
+    --tint-green:  rgba(122, 193, 66, 0.16);
+    --tint-pink:   rgba(232, 54, 93, 0.18);
+    --tint-orange: rgba(245, 130, 32, 0.16);
 
-    --ink:        #f2effc;
-    --ink-soft:   #bdb6dd;
-    --ink-faint:  #8e87b4;
-    --paper:      #1e1a33;
-    --paper-sunk: #171329;
+    --ink:        #eef5fb;
+    --ink-soft:   #b5c5d6;
+    --ink-faint:  #8497ad;
+    --paper:      #15232f;
+    --paper-sunk: #101b26;
     --hairline:   rgba(255, 255, 255, 0.09);
     --hairline-strong: rgba(255, 255, 255, 0.18);
     --shell:      rgba(255, 255, 255, 0.045);
 
-    --bg-top:     #141024;
-    --bg-bottom:  #1b1430;
+    --bg-top:     #0c1620;
+    --bg-bottom:  #142230;
 
     --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.32), 0 4px 10px rgba(0, 0, 0, 0.28);
     --shadow-2: 0 2px 5px rgba(0, 0, 0, 0.36), 0 10px 24px rgba(0, 0, 0, 0.34);
     --shadow-3: 0 4px 10px rgba(0, 0, 0, 0.42), 0 20px 44px rgba(0, 0, 0, 0.44);
     --shadow-inset-top: inset 0 1px 0 rgba(255, 255, 255, 0.07);
 
-    --focus-ring: 3px solid #8ec5ff;
+    --focus-ring: 3px solid #ffd15c;
   }
 }
 
@@ -181,7 +189,7 @@ h1, h2, h3, h4, .site-logo__text {
 
 a { color: var(--color-purple-dark); }
 
-::selection { background: var(--color-yellow); color: #251f42; }
+::selection { background: var(--color-yellow); color: #1c2a3a; }
 
 a:focus-visible,
 button:focus-visible,
@@ -241,8 +249,8 @@ body.a11y-reduce-motion [data-reveal] {
   top: 0;
   z-index: 10000;
   transform: translate3d(0, -140%, 0);
-  background: var(--color-purple);
-  color: #fff;
+  background: var(--badge-bottom);
+  color: var(--on-badge);
   padding: 12px 22px;
   border-radius: 0 0 14px 14px;
   font-weight: 700;
@@ -283,9 +291,11 @@ body.a11y-reduce-motion [data-reveal] {
   align-items: center;
   justify-content: space-between;
   gap: 10px 24px;
-  padding: 11px 14px 11px 18px;
+  padding: 9px 14px 11px 18px;
   border-radius: 999px;
-  background: linear-gradient(103deg, var(--color-purple) 0%, #9a6cff 52%, #b07bff 100%);
+  overflow: hidden;
+  background: var(--paper);
+  border: 1px solid var(--hairline);
   box-shadow: var(--shadow-2), inset 0 1px 0 rgba(255, 255, 255, 0.28);
   transition:
     transform var(--dur-mid) var(--ease-smooth),
@@ -298,6 +308,23 @@ body.a11y-reduce-motion [data-reveal] {
   transform: scale(0.985);
 }
 
+/* Logo-coloured stripe, echoing the five letters of the wordmark */
+.site-header__inner::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 4px;
+  background: var(--logo-stripe);
+}
+.site-logo__img {
+  display: block;
+  height: 44px;
+  width: auto;
+}
+@media (prefers-color-scheme: dark) {
+  /* the wordmark's tagline is dark ink, so it keeps a light plate */
+  .site-logo__img { background: #fff; border-radius: 12px; padding: 3px 9px; height: 46px; }
+}
 .site-logo {
   display: flex;
   align-items: center;
@@ -325,7 +352,7 @@ body.a11y-reduce-motion [data-reveal] {
 }
 .site-logo:hover .site-logo__icon { transform: rotate(-8deg) scale(1.06); }
 .site-logo__text {
-  color: #fff;
+  color: var(--color-purple-dark);
   font-size: 1.2rem;
   font-weight: 800;
   letter-spacing: -0.01em;
@@ -337,12 +364,12 @@ body.a11y-reduce-motion [data-reveal] {
   align-items: center;
   gap: 6px;
   font-size: 0.9rem;
-  color: #f0eaff;
+  color: var(--ink-soft);
 }
 .breadcrumb a {
-  color: #fff;
+  color: var(--color-purple-dark);
   text-decoration: none;
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--tint-blue);
   padding: 5px 12px;
   border-radius: 999px;
   transition:
@@ -350,19 +377,19 @@ body.a11y-reduce-motion [data-reveal] {
     transform var(--dur-fast) var(--ease-spring);
 }
 .breadcrumb a:hover {
-  background: rgba(255, 255, 255, 0.30);
+  background: var(--tint-purple);
   transform: translate3d(0, -1px, 0);
   text-decoration: none;
 }
 .breadcrumb a:active { transform: scale(0.96); }
 .breadcrumb span.sep { opacity: 0.55; padding: 0 1px; }
 .breadcrumb span[aria-current] {
-  background: #fff;
-  color: #5326c9;
+  background: linear-gradient(180deg, var(--badge-top), var(--badge-bottom));
+  color: var(--on-badge);
   padding: 5px 12px;
   border-radius: 999px;
   font-weight: 700;
-  box-shadow: 0 2px 6px rgba(40, 20, 90, 0.18);
+  box-shadow: 0 2px 6px rgba(244, 123, 32, 0.30);
 }
 
 /* ------------------------------------------------------------
@@ -396,7 +423,7 @@ body.a11y-reduce-motion [data-reveal] {
   height: 5px;
   border-radius: 999px;
   margin: 0 auto;
-  background: linear-gradient(90deg, var(--color-yellow), var(--color-pink));
+  background: var(--logo-stripe);
 }
 .page-hero__back {
   display: inline-flex;
@@ -461,8 +488,8 @@ body.a11y-reduce-motion [data-reveal] {
   border-radius: 29px;
   background:
     radial-gradient(620px 320px at 14% 0%, rgba(255, 255, 255, 0.28) 0%, transparent 60%),
-    radial-gradient(520px 380px at 92% 108%, rgba(255, 201, 60, 0.42) 0%, transparent 62%),
-    linear-gradient(122deg, #6b3ff0 0%, #8659ff 42%, #2fb6e0 100%);
+    radial-gradient(520px 380px at 92% 108%, rgba(251, 177, 22, 0.32) 0%, transparent 62%),
+    linear-gradient(122deg, #084e78 0%, #0b6fa8 46%, #1398d6 100%);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
 }
 .home-banner h1 {
@@ -470,7 +497,7 @@ body.a11y-reduce-motion [data-reveal] {
   font-size: clamp(1.9rem, 1.2rem + 2.6vw, 3.1rem);
   margin-bottom: 14px;
   line-height: 1.1;
-  text-shadow: 0 2px 20px rgba(30, 10, 80, 0.25);
+  text-shadow: 0 2px 20px rgba(4, 30, 52, 0.30);
 }
 .home-banner p {
   font-size: clamp(1rem, 0.96rem + 0.2vw, 1.1rem);
@@ -537,7 +564,7 @@ body.a11y-reduce-motion [data-reveal] {
 .ag-courses_item:hover {
   transform: translate3d(0, -6px, 0);
   border-color: var(--hairline-strong);
-  background: rgba(124, 77, 255, 0.09);
+  background: rgba(19, 152, 214, 0.10);
 }
 
 /* Inner core */
@@ -581,7 +608,7 @@ body.a11y-reduce-motion [data-reveal] {
     opacity: 0;
     background: radial-gradient(
       210px circle at var(--mx) var(--my),
-      rgba(124, 77, 255, 0.13) 0%,
+      rgba(19, 152, 214, 0.14) 0%,
       transparent 70%
     );
     transition: opacity var(--dur-mid) var(--ease-smooth);
@@ -726,8 +753,8 @@ body.a11y-reduce-motion [data-reveal] {
   gap: 10px;
   padding: 9px 9px 9px 22px;
   border-radius: 999px;
-  background: linear-gradient(180deg, #8b5cff 0%, var(--color-purple) 100%);
-  color: #fff !important;
+  background: linear-gradient(180deg, var(--badge-top) 0%, var(--badge-bottom) 100%);
+  color: var(--on-badge) !important;
   font-weight: 700;
   text-decoration: none !important;
   box-shadow: var(--shadow-2), inset 0 1px 0 rgba(255, 255, 255, 0.30);
@@ -744,7 +771,7 @@ body.a11y-reduce-motion [data-reveal] {
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.20);
+  background: rgba(255, 255, 255, 0.45);
   transition: transform var(--dur-mid) var(--ease-spring);
 }
 .btn-home:hover {
@@ -904,8 +931,8 @@ body.a11y-big-cursor, body.a11y-big-cursor * { cursor: url('data:image/svg+xml;u
   left: 0; right: 0;
   height: 40px;
   background: rgba(255, 201, 60, 0.28);
-  border-top: 2px solid rgba(124, 77, 255, 0.6);
-  border-bottom: 2px solid rgba(124, 77, 255, 0.6);
+  border-top: 2px solid rgba(19, 152, 214, 0.6);
+  border-bottom: 2px solid rgba(19, 152, 214, 0.6);
   pointer-events: none;
   z-index: 9998;
   display: none;
@@ -934,7 +961,7 @@ body.a11y-reduce-motion *::after {
   height: 60px;
   border-radius: 50%;
   border: none;
-  background: linear-gradient(140deg, var(--color-purple), var(--color-pink));
+  background: linear-gradient(160deg, var(--badge-top), var(--badge-bottom));
   color: #fff;
   font-size: 1.6rem;
   box-shadow: var(--shadow-3), inset 0 1px 0 rgba(255, 255, 255, 0.30);
@@ -1041,8 +1068,8 @@ body.a11y-reduce-motion *::after {
   width: 29px; height: 29px;
   border-radius: 50%;
   border: none;
-  background: var(--color-purple);
-  color: #fff;
+  background: var(--badge-bottom);
+  color: var(--on-badge);
   font-weight: 800;
   font-size: 1rem;
   line-height: 1;
@@ -1129,8 +1156,8 @@ body.a11y-reduce-motion *::after {
 .doc-view__back:active { transform: scale(0.975); }
 
 .doc-view__open {
-  background: linear-gradient(180deg, #8b5cff 0%, var(--color-purple) 100%);
-  color: #fff !important;
+  background: linear-gradient(180deg, var(--badge-top) 0%, var(--badge-bottom) 100%);
+  color: var(--on-badge) !important;
   box-shadow: var(--shadow-1), inset 0 1px 0 rgba(255, 255, 255, 0.30);
 }
 .doc-view__open::after {

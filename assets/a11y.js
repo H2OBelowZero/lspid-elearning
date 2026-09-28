@@ -221,7 +221,7 @@
       row('🐢 Reduce Motion', 'a11y-reducemotion') +
       '<hr class="a11y-hr">' +
       '<div class="a11y-row"><span class="a11y-row__label">🔊 Read This Page</span>' +
-        '<button type="button" class="a11y-switch" id="a11y-readpage" aria-pressed="false" style="width:auto;border-radius:999px;background:var(--color-purple);color:#fff;padding:0 12px;font-size:.8rem;font-weight:700;">Play</button>' +
+        '<button type="button" class="a11y-switch" id="a11y-readpage" aria-pressed="false" style="width:auto;border-radius:999px;background:var(--badge-bottom);color:var(--on-badge);padding:0 12px;font-size:.8rem;font-weight:700;">Play</button>' +
       '</div>' +
       '<hr class="a11y-hr">' +
       '<div class="a11y-row"><span class="a11y-row__label">🔠 Text Size</span>' +
