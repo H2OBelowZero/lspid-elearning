@@ -2,6 +2,12 @@ package com.lspid.elearning
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.res.Configuration
+import android.graphics.drawable.ColorDrawable
+import android.os.Build
+import android.webkit.JavascriptInterface
+import androidx.core.content.ContextCompat
+import androidx.core.view.WindowCompat
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
@@ -44,6 +50,12 @@ class MainActivity : AppCompatActivity() {
         // WebView stays blank on a PDF iframe, so the viewer pages get a button that
         // navigates to the file instead, which openAsset() then intercepts.
         const val PDF_FIX_JS = """(function(){var f=document.querySelector('iframe.doc-view__frame');if(!f||!/\.(pdf|docx?|pptx?)([?#]|$)/i.test(f.src))return;var a=document.createElement('a');a.className='btn-home';a.href=f.src;a.textContent='Open document';var p=document.createElement('p');p.style.cssText='text-align:center;padding:40px 16px';p.appendChild(a);f.replaceWith(p);})();"""
+        // Where a page from the offline bundle can be opened by someone without the app.
+        const val PUBLIC_SITE = "https://lspid-elearning.netlify.app/"
+        const val PREFS = "site"
+        const val KEY_DARK = "dark"
+        val DARK_BG: Int = Color.parseColor("#0C1620") // the site's dark page colour
+        val DARK_BAR: Int = Color.parseColor("#101B26") // its dark header / tab bar
         const val HIDE_GET_APP_JS = """(function(){var b=document.getElementById('share-app-btn');if(b)b.hidden=true;})();"""
     }
 
@@ -73,7 +85,12 @@ class MainActivity : AppCompatActivity() {
             builtInZoomControls = false
             displayZoomControls = false
         }
-        webView.setBackgroundColor(Color.WHITE)
+        // Start in the theme the site last reported (or the phone's), so a dark page never
+        // opens on a white flash; the page confirms or corrects it as soon as it loads.
+        val prefs = getSharedPreferences(PREFS, MODE_PRIVATE)
+        val systemDark = (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
+        applyTheme(if (prefs.contains(KEY_DARK)) prefs.getBoolean(KEY_DARK, false) else systemDark)
+        webView.addJavascriptInterface(SiteBridge(), "SDLRApp")
 
         // Some lesson pages link out with target="_blank" (e.g. external reading resources).
         // With no WebChromeClient, WebView has nowhere to put that new window and on several
@@ -158,6 +175,50 @@ class MainActivity : AppCompatActivity() {
         }
 
         webView.loadUrl(if (BuildConfig.OFFLINE_BUNDLE) ASSET_ORIGIN + "index.html" else BuildConfig.APP_BASE_URL)
+    }
+
+    /**
+     * Called by the site's own assets/motion.js as window.SDLRApp. WebView has no Web Share API
+     * and a page can't tint the system bars, so the shell does both. Runs off the UI thread.
+     */
+    private inner class SiteBridge {
+        @JavascriptInterface
+        fun setTheme(dark: Boolean) = runOnUiThread {
+            getSharedPreferences(PREFS, MODE_PRIVATE).edit().putBoolean(KEY_DARK, dark).apply()
+            applyTheme(dark)
+        }
+
+        @JavascriptInterface
+        fun share(title: String, url: String) = runOnUiThread {
+            // Offline pages live on a virtual origin no one else can open: share the same page
+            // on the public website instead.
+            val link = if (url.startsWith(ASSET_ORIGIN)) PUBLIC_SITE + url.removePrefix(ASSET_ORIGIN) else url
+            val send = Intent(Intent.ACTION_SEND)
+                .setType("text/plain")
+                .putExtra(Intent.EXTRA_SUBJECT, title)
+                .putExtra(Intent.EXTRA_TEXT, "$title\n$link")
+            startActivity(Intent.createChooser(send, null))
+        }
+    }
+
+    /** Matches the WebView backdrop and the status / navigation bars to the site theme. */
+    private fun applyTheme(dark: Boolean) {
+        val page = if (dark) DARK_BG else Color.WHITE
+        webView.setBackgroundColor(page)
+        window.setBackgroundDrawable(ColorDrawable(page))
+        // Dark status-bar icons need API 23 (nav bar: 26); below that a white bar would hide
+        // the clock, so it keeps the brand blue.
+        val darkIcons = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+        window.statusBarColor = when {
+            dark -> DARK_BAR
+            darkIcons -> Color.WHITE
+            else -> ContextCompat.getColor(this, R.color.brand_primary)
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) window.navigationBarColor = if (dark) DARK_BAR else Color.WHITE
+        WindowCompat.getInsetsController(window, window.decorView).apply {
+            isAppearanceLightStatusBars = !dark && darkIcons
+            isAppearanceLightNavigationBars = !dark && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+        }
     }
 
     /** Streams assets/site/<path> to the WebView; folders resolve to their index.html. */

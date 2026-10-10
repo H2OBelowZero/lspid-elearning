@@ -188,69 +188,101 @@
   }
 
   /* ---------------- Build the toolbar UI ---------------- */
-  function row(labelHtml, id) {
+  function ico(glyph, color) {
+    return '<i class="a11y-ico" aria-hidden="true" style="--c:' + color + '">' + glyph + '</i>';
+  }
+  function row(icon, label, id) {
     return (
       '<div class="a11y-row">' +
-        '<span class="a11y-row__label">' + labelHtml + '</span>' +
-        '<button type="button" class="a11y-switch" id="' + id + '" aria-pressed="false"></button>' +
+        '<span class="a11y-row__label">' + icon + label + '</span>' +
+        '<button type="button" class="a11y-switch" id="' + id + '" aria-pressed="false" aria-label="' + label + '"></button>' +
       '</div>'
     );
   }
 
+  /* Asset paths are relative to this script, so they work at any depth */
+  var scriptSrc = (document.currentScript && document.currentScript.src) || '';
+  function asset(name) { return scriptSrc ? new URL('../img/ui/' + name, scriptSrc).href : ''; }
+
   function buildToolbar() {
-    var toggle = document.createElement('button');
-    toggle.id = 'a11y-toggle';
-    toggle.type = 'button';
-    toggle.setAttribute('aria-label', 'Open reading and accessibility tools');
-    toggle.setAttribute('aria-expanded', 'false');
-    toggle.innerHTML = '🧩';
+    /* Pages carry their own header button(s); the floating button is only
+       a fallback for pages that do not. */
+    var toggles = Array.prototype.slice.call(document.querySelectorAll('[data-a11y-open]'));
+    var fab = null;
+    if (!toggles.length) {
+      fab = document.createElement('button');
+      fab.id = 'a11y-toggle';
+      fab.type = 'button';
+      fab.setAttribute('aria-label', 'Open reading and accessibility tools');
+      toggles = [fab];
+    }
+    var lastToggle = toggles[0];
 
     var panel = document.createElement('div');
     panel.id = 'a11y-panel';
     panel.setAttribute('role', 'dialog');
-    panel.setAttribute('aria-label', 'Reading and accessibility tools');
+    panel.setAttribute('aria-labelledby', 'a11y-title');
     panel.hidden = true;
+    if (fab) panel.className = 'is-fab';
     panel.innerHTML =
-      '<h2>✨ Reading &amp; Accessibility</h2>' +
-      row('🅱️ Bionic Reading', 'a11y-bionic') +
-      row('🔤 Dyslexia-Friendly Mode', 'a11y-dyslexia') +
-      row('🔲 High Contrast', 'a11y-contrast') +
-      row('🖱️ Big Cursor', 'a11y-bigcursor') +
-      row('📏 Reading Ruler', 'a11y-ruler') +
-      row('🎧 Speak Card Names on Hover', 'a11y-hoverspeak') +
-      row('🐢 Reduce Motion', 'a11y-reducemotion') +
-      '<hr class="a11y-hr">' +
-      '<div class="a11y-row"><span class="a11y-row__label">🔊 Read This Page</span>' +
-        '<button type="button" class="a11y-switch" id="a11y-readpage" aria-pressed="false" style="width:auto;border-radius:999px;background:var(--badge-bottom);color:var(--on-badge);padding:0 12px;font-size:.8rem;font-weight:700;">Play</button>' +
-      '</div>' +
-      '<hr class="a11y-hr">' +
-      '<div class="a11y-row"><span class="a11y-row__label">🔠 Text Size</span>' +
+      '<div class="a11y-head">' +
+        '<h2 id="a11y-title"><span class="ico"><img src="' + asset('a11y.png') + '" alt=""></span>Accessibility Toolkit</h2>' +
+        '<p>Adjust the site to your needs for a better learning experience.</p>' +
+        '<button type="button" class="a11y-close" id="a11y-close" aria-label="Close accessibility tools">&times;</button>' +
+      '</div><div class="a11y-body">' +
+      '<div class="a11y-row"><span class="a11y-row__label">' + ico('Aa', '#2aa9e0') + 'Text Size</span>' +
         '<span class="a11y-stepper"><button type="button" id="a11y-font-minus" aria-label="Smaller text">−</button>' +
         '<span id="a11y-font-value">100%</span>' +
         '<button type="button" id="a11y-font-plus" aria-label="Larger text">+</button></span>' +
       '</div>' +
-      '<div class="a11y-row"><span class="a11y-row__label">↕️ Line Spacing</span>' +
+      row(ico('☾', '#2b3a67'), 'Dark Mode', 'a11y-darkmode') +
+      row(ico('◐', '#1182c5'), 'High Contrast', 'a11y-contrast') +
+      '<div class="a11y-row"><span class="a11y-row__label">' + ico('▶', '#e8365d') + 'Read Aloud</span>' +
+        '<button type="button" class="a11y-switch" id="a11y-readpage" aria-pressed="false">Play</button>' +
+      '</div>' +
+      row(ico('Aa', '#f58220'), 'Dyslexia Friendly', 'a11y-dyslexia') +
+      row(ico('B', '#7ac142'), 'Bionic Reading', 'a11y-bionic') +
+      row(ico('≡', '#e0a100'), 'Reading Ruler', 'a11y-ruler') +
+      row(ico('↖', '#9b5de5'), 'Big Cursor', 'a11y-bigcursor') +
+      row(ico('♪', '#e8365d'), 'Speak Card Names', 'a11y-hoverspeak') +
+      row(ico('Ⅱ', '#3b9e5a'), 'Reduce Motion', 'a11y-reducemotion') +
+      '<div class="a11y-row"><span class="a11y-row__label">' + ico('↕', '#9b5de5') + 'Line Spacing</span>' +
         '<span class="a11y-stepper"><button type="button" id="a11y-line-minus" aria-label="Less line spacing">−</button>' +
         '<span id="a11y-line-value">1</span>' +
         '<button type="button" id="a11y-line-plus" aria-label="More line spacing">+</button></span>' +
       '</div>' +
-      '<button type="button" class="a11y-reset" id="a11y-reset-all">↺ Reset everything</button>';
+      '<hr class="a11y-hr">' +
+      '<button type="button" class="a11y-reset" id="a11y-reset-all"><span class="ico"><img src="' + asset('settings.png') + '" alt=""></span>Reset Settings</button>' +
+      '</div>';
 
     document.body.appendChild(panel);
-    document.body.appendChild(toggle);
+    if (fab) document.body.appendChild(fab);
 
-    toggle.addEventListener('click', function () {
-      var willShow = panel.hidden;
-      panel.hidden = !willShow;
-      toggle.setAttribute('aria-expanded', String(willShow));
+    function setOpen(open) {
+      panel.hidden = !open;
+      toggles.forEach(function (t) { t.setAttribute('aria-expanded', String(open)); });
+      if (open) document.getElementById('a11y-close').focus();
+    }
+    toggles.forEach(function (t) {
+      t.setAttribute('aria-expanded', 'false');
+      t.addEventListener('click', function () { lastToggle = t; setOpen(panel.hidden); });
+    });
+    document.getElementById('a11y-close').addEventListener('click', function () {
+      setOpen(false);
+      lastToggle.focus();
     });
 
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && !panel.hidden) {
-        panel.hidden = true;
-        toggle.setAttribute('aria-expanded', 'false');
-        toggle.focus();
+        setOpen(false);
+        lastToggle.focus();
       }
+    });
+    /* A tap outside the panel closes it, like any popover */
+    document.addEventListener('pointerdown', function (e) {
+      if (panel.hidden || panel.contains(e.target)) return;
+      if (e.target.closest && e.target.closest('[data-a11y-open], #a11y-toggle')) return;
+      setOpen(false);
     });
 
     function wireSwitch(id, key, onChange) {
@@ -273,6 +305,16 @@
     wireSwitch('a11y-ruler', 'ruler', function (on) { toggleBodyClass('a11y-ruler-on', on); if (on) ensureRuler(); });
     wireSwitch('a11y-hoverspeak', 'hoverSpeak', function (on) { setHoverSpeak(on); });
     wireSwitch('a11y-reducemotion', 'reduceMotion', function (on) { toggleBodyClass('a11y-reduce-motion', on); });
+
+    var darkBtn = document.getElementById('a11y-darkmode');
+    function syncDark() { darkBtn.setAttribute('aria-pressed', String(document.documentElement.getAttribute('data-theme') === 'dark')); }
+    if (window.sdlrTheme) {
+      syncDark();
+      document.addEventListener('sdlr-theme', syncDark);
+      darkBtn.addEventListener('click', function () { window.sdlrTheme.toggle(darkBtn); });
+    } else {
+      darkBtn.parentNode.hidden = true;
+    }
 
     var readBtn = document.getElementById('a11y-readpage');
     readBtn.addEventListener('click', function () {
@@ -323,6 +365,7 @@
     document.getElementById('a11y-reset-all').addEventListener('click', function () {
       prefs = Object.assign({}, DEFAULTS);
       savePrefs(prefs);
+      if (window.sdlrTheme) window.sdlrTheme.set(null); /* follow the device again */
       disableBionic();
       applyAll();
       ['a11y-bionic','a11y-dyslexia','a11y-contrast','a11y-bigcursor','a11y-ruler','a11y-hoverspeak','a11y-reducemotion'].forEach(function (id) {

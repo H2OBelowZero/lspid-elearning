@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1398d6" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0c1620" media="(prefers-color-scheme: dark)">
+  <meta name="color-scheme" content="light dark">
+  <title>Search · E-Learning for LSPID</title>
+  <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/css.css">
+  <script src="assets/motion.js"></script>
+  <script defer src="assets/a11y.js"></script>
+</head>
+
+<body>
+
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <header class="site-header" id="top">
+    <div class="site-header__inner">
+      <a class="site-logo" href="index.html">
+        <img class="site-logo__img" src="img/logo.png" width="440" height="124" alt="mySDLR - my Supplementary Digital Learning Resources">
+      </a>
+      <nav class="site-nav" aria-label="Main">
+        <a href="index.html">Home</a>
+        <a href="browse.html">Browse</a>
+        <a href="get-app.html" data-get-app>Get the App</a>
+        <a href="about.html">About</a>
+      </nav>
+      <form class="site-search" action="search.html" role="search">
+        <input type="search" name="q" placeholder="Search resources..." aria-label="Search resources" autocomplete="off">
+        <button type="submit" class="ico" aria-label="Search"><img src="img/ui/search.png" alt="" width="113" height="103"></button>
+      </form>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false" aria-label="Dark mode"><span class="theme-toggle__sun" aria-hidden="true"><img src="img/ui/sun.png" alt="" width="165" height="144"></span><span class="theme-toggle__moon" aria-hidden="true"></span></button>
+      <button class="site-a11y ico" type="button" data-a11y-open aria-label="Open reading and accessibility tools" aria-expanded="false" aria-controls="a11y-panel"><img src="img/ui/a11y.png" alt="" width="121" height="101"></button>
+    </div>
+  </header>
+
+  <main id="main-content" class="ag-format-container">
+    <div class="page-hero">
+      <div class="page-hero__icon" aria-hidden="true">🔎</div>
+      <h1 class="page-hero__title">Search Resources</h1>
+      <p class="page-hero__sub">Find any document</p>
+      <p class="page-hero__lead">Search all 784 lesson plans, workbooks, assessments, policies and slide decks by name or section.</p>
+      <div class="page-hero__rule"></div>
+      <a class="page-hero__back" href="index.html">Back to Home</a>
+    </div>
+    <form class="site-search search-big" action="search.html" role="search" id="search-form">
+      <input type="search" name="q" id="search-q" placeholder="Try “life skills term 2” or “workbook”" aria-label="Search resources" autocomplete="off">
+      <button type="submit" class="ico" aria-label="Search"><img src="img/ui/search.png" alt="" width="113" height="103"></button>
+    </form>
+    <div class="chips" role="group" aria-label="Filter by type">
+      <button type="button" class="chip" data-kind="" aria-pressed="true">All</button>
+      <button type="button" class="chip" data-kind="PDF" aria-pressed="false">PDF</button>
+      <button type="button" class="chip" data-kind="Word" aria-pressed="false">Word</button>
+      <button type="button" class="chip" data-kind="Slides" aria-pressed="false">Slides</button>
+    </div>
+    <p class="search-status" id="search-status" role="status"></p>
+    <ul class="list-rows" id="search-results"></ul>
+  </main>
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <p class="site-footer__brand"><strong>mySDLR</strong><span class="site-footer__sep" aria-hidden="true">|</span>Supporting inclusive education in South Africa<span class="site-footer__flag" role="img" aria-label="South African flag"></span></p>
+      <p class="site-footer__links"><a href="index.html">Home</a><a href="browse.html">Browse</a><a href="about.html">About</a><a class="site-footer__top" href="#top">Back to top</a></p>
+    </div>
+  </footer>
+  <nav class="tabbar" aria-label="Quick navigation">
+    <a href="index.html"><span class="ico"><img src="img/ui/home.png" alt="" width="105" height="106"></span>Home</a>
+    <a href="browse.html"><span class="ico"><img src="img/ui/book.png" alt="" width="120" height="99"></span>Browse</a>
+    <a href="get-app.html" data-get-app><span class="ico"><img src="img/ui/down.png" alt="" width="114" height="96"></span>App</a>
+    <a href="about.html"><span class="ico ico--free"><img src="img/ui/chat.png" alt="" width="81" height="73"></span>More</a>
+  </nav>
+
+  <script src="assets/search-index.js"></script>
+  <script>
+    (function () {
+      var INDEX = window.SDLR_INDEX || [];
+      var LIMIT = 120;
+      var form = document.getElementById('search-form');
+      var input = document.getElementById('search-q');
+      var list = document.getElementById('search-results');
+      var status = document.getElementById('search-status');
+      var chips = document.querySelectorAll('.chip');
+      var params = new URLSearchParams(location.search);
+      var kind = params.get('kind') || '';
+      var BADGE = { PDF: 'PDF', Word: 'DOC', Slides: 'PPT' };
+      input.value = params.get('q') || '';
+
+      function href(path) { return path.split('/').map(encodeURIComponent).join('/'); }
+      function el(tag, cls, text) {
+        var n = document.createElement(tag);
+        if (cls) n.className = cls;
+        if (text) n.textContent = text;
+        return n;
+      }
+
+      function render() {
+        var words = input.value.toLowerCase().split(/\s+/).filter(Boolean);
+        var hits = INDEX.filter(function (d) {
+          if (kind && d[1] !== kind) return false;
+          var hay = (d[0] + ' ' + d[2]).toLowerCase();
+          return words.every(function (w) { return hay.indexOf(w) > -1; });
+        });
+        for (var i = 0; i < chips.length; i++) chips[i].setAttribute('aria-pressed', String(chips[i].getAttribute('data-kind') === kind));
+
+        list.textContent = '';
+        hits.slice(0, LIMIT).forEach(function (d) {
+          var a = el('a', 'list-row');
+          a.href = href(d[3]);
+          a.setAttribute('data-kind', d[1].toLowerCase());
+          a.appendChild(el('span', 'list-row__icon', BADGE[d[1]] || d[1]));
+          var text = el('span', 'list-row__text');
+          text.appendChild(el('span', 'list-row__title', d[0]));
+          text.appendChild(el('span', 'list-row__meta', [d[2], d[1], d[4]].filter(Boolean).join(' • ')));
+          a.appendChild(text);
+          a.appendChild(el('span', 'list-row__go', 'View'));
+          var li = el('li');
+          li.appendChild(a);
+          list.appendChild(li);
+        });
+
+        var q = input.value.trim();
+        var label = hits.length + ' resource' + (hits.length === 1 ? '' : 's') + (q ? ' for “' + q + '”' : '');
+        if (!hits.length) label = 'Nothing found' + (q ? ' for “' + q + '”' : '') + '. Try a shorter word, like “maths” or “term 1”.';
+        else if (hits.length > LIMIT) label += '. Showing the first ' + LIMIT + ' — add another word to narrow it down.';
+        status.textContent = label;
+
+        var qs = new URLSearchParams();
+        if (q) qs.set('q', q);
+        if (kind) qs.set('kind', kind);
+        try { history.replaceState(null, '', location.pathname + (qs.toString() ? '?' + qs : '')); } catch (e) {}
+      }
+
+      var timer = 0;
+      input.addEventListener('input', function () { clearTimeout(timer); timer = setTimeout(render, 140); });
+      form.addEventListener('submit', function (e) { e.preventDefault(); render(); });
+      for (var i = 0; i < chips.length; i++) {
+        chips[i].addEventListener('click', function () { kind = this.getAttribute('data-kind'); render(); });
+      }
+      render();
+    })();
+  </script>
+</body>
+
+</html>

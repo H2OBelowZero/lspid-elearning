@@ -17,22 +17,36 @@
 
 <body>
   <a class="skip-link" href="#main-content">Skip to main content</a>
-  <header class="site-header">
+  <header class="site-header" id="top">
     <div class="site-header__inner">
       <a class="site-logo" href="../index.html">
         <img class="site-logo__img" src="../img/logo.png" width="440" height="124" alt="mySDLR - my Supplementary Digital Learning Resources">
       </a>
-      <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="../index.html">🏠 Home</a>
-      <span class="sep">›</span><span aria-current="page">Annual Teaching Plans</span>
+      <nav class="site-nav" aria-label="Main">
+        <a href="../index.html">Home</a>
+        <a href="../browse.html" class="is-active">Browse</a>
+        <a href="../get-app.html" data-get-app>Get the App</a>
+        <a href="../about.html">About</a>
       </nav>
+      <form class="site-search" action="../search.html" role="search">
+        <input type="search" name="q" placeholder="Search resources..." aria-label="Search resources" autocomplete="off">
+        <button type="submit" class="ico" aria-label="Search"><img src="../img/ui/search.png" alt="" width="113" height="103"></button>
+      </form>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false" aria-label="Dark mode"><span class="theme-toggle__sun" aria-hidden="true"><img src="../img/ui/sun.png" alt="" width="165" height="144"></span><span class="theme-toggle__moon" aria-hidden="true"></span></button>
+      <button class="site-a11y ico" type="button" data-a11y-open aria-label="Open reading and accessibility tools" aria-expanded="false" aria-controls="a11y-panel"><img src="../img/ui/a11y.png" alt="" width="121" height="101"></button>
     </div>
   </header>
 
   <main id="main-content" class="ag-format-container">
+    <nav class="breadcrumb crumbs" aria-label="Breadcrumb">
+        <a href="../index.html">🏠 Home</a>
+      <span class="sep">›</span><span aria-current="page">Annual Teaching Plans</span>
+      </nav>
     <div class="page-hero">
       <div class="page-hero__icon" aria-hidden="true">🗓️</div>
       <h1 class="page-hero__title">Annual Teaching Plans</h1>
+      <p class="page-hero__sub">CAPS / SID Curriculum</p>
+      <p class="page-hero__lead">Explore 34 lesson plans, workbooks, assessments and more for Annual Teaching Plans. All resources are aligned with the South African CAPS / SID curriculum.</p>
       <div class="page-hero__rule"></div>
       <a class="page-hero__back" href="../index.html">Back to Home</a>
     </div>
@@ -40,56 +54,63 @@
       <div class="ag-courses_item">
         <a href="GRADE%201/index.html" class="ag-courses-item_link">
           <div class="ag-courses-item_bg"></div>
-          <span class="ag-courses-item_icon" aria-hidden="true">🎓</span>
+          <span class="ag-courses-item_icon ag-courses-item_icon--art ico" aria-hidden="true"><img src="../img/ui/ico-lesson.png" alt="" width="128" height="128" loading="lazy"></span>
           <div class="ag-courses-item_title">Grade 1</div>
+          <span class="ag-courses-item_meta">3 resources</span>
           
         </a>
       </div>
       <div class="ag-courses_item">
         <a href="GRADE%202/index.html" class="ag-courses-item_link">
           <div class="ag-courses-item_bg"></div>
-          <span class="ag-courses-item_icon" aria-hidden="true">🎓</span>
+          <span class="ag-courses-item_icon ag-courses-item_icon--art ico" aria-hidden="true"><img src="../img/ui/ico-lesson.png" alt="" width="128" height="128" loading="lazy"></span>
           <div class="ag-courses-item_title">Grade 2</div>
+          <span class="ag-courses-item_meta">3 resources</span>
           
         </a>
       </div>
       <div class="ag-courses_item">
         <a href="GRADE%203/index.html" class="ag-courses-item_link">
           <div class="ag-courses-item_bg"></div>
-          <span class="ag-courses-item_icon" aria-hidden="true">🎓</span>
+          <span class="ag-courses-item_icon ag-courses-item_icon--art ico" aria-hidden="true"><img src="../img/ui/ico-lesson.png" alt="" width="128" height="128" loading="lazy"></span>
           <div class="ag-courses-item_title">Grade 3</div>
+          <span class="ag-courses-item_meta">3 resources</span>
           
         </a>
       </div>
       <div class="ag-courses_item">
         <a href="GRADE%204/index.html" class="ag-courses-item_link">
           <div class="ag-courses-item_bg"></div>
-          <span class="ag-courses-item_icon" aria-hidden="true">🎓</span>
+          <span class="ag-courses-item_icon ag-courses-item_icon--art ico" aria-hidden="true"><img src="../img/ui/ico-lesson.png" alt="" width="128" height="128" loading="lazy"></span>
           <div class="ag-courses-item_title">Grade 4</div>
+          <span class="ag-courses-item_meta">10 resources</span>
           
         </a>
       </div>
       <div class="ag-courses_item">
         <a href="GRADE%205/index.html" class="ag-courses-item_link">
           <div class="ag-courses-item_bg"></div>
-          <span class="ag-courses-item_icon" aria-hidden="true">🎓</span>
+          <span class="ag-courses-item_icon ag-courses-item_icon--art ico" aria-hidden="true"><img src="../img/ui/ico-lesson.png" alt="" width="128" height="128" loading="lazy"></span>
           <div class="ag-courses-item_title">Grade 5</div>
+          <span class="ag-courses-item_meta">10 resources</span>
           
         </a>
       </div>
       <div class="ag-courses_item">
         <a href="GRADE%20R/index.html" class="ag-courses-item_link">
           <div class="ag-courses-item_bg"></div>
-          <span class="ag-courses-item_icon" aria-hidden="true">🧸</span>
+          <span class="ag-courses-item_icon ag-courses-item_icon--art ico" aria-hidden="true"><img src="../img/ui/ico-lesson.png" alt="" width="128" height="128" loading="lazy"></span>
           <div class="ag-courses-item_title">Grade R</div>
+          <span class="ag-courses-item_meta">3 resources</span>
           
         </a>
       </div>
       <div class="ag-courses_item">
         <a href="GRADE%20R%20LSPID%20PROGRAMME/index.html" class="ag-courses-item_link">
           <div class="ag-courses-item_bg"></div>
-          <span class="ag-courses-item_icon" aria-hidden="true">🧸</span>
+          <span class="ag-courses-item_icon ag-courses-item_icon--art ico" aria-hidden="true"><img src="../img/ui/ico-policy.png" alt="" width="128" height="128" loading="lazy"></span>
           <div class="ag-courses-item_title">Grade R LSPID Programme</div>
+          <span class="ag-courses-item_meta">2 resources</span>
           
         </a>
       </div>
@@ -97,8 +118,17 @@
   </main>
 
   <footer class="site-footer">
-    <p>Made with 💛 for LSPID learners - <a href="../index.html">Back to Home</a></p>
+    <div class="site-footer__inner">
+      <p class="site-footer__brand"><strong>mySDLR</strong><span class="site-footer__sep" aria-hidden="true">|</span>Supporting inclusive education in South Africa<span class="site-footer__flag" role="img" aria-label="South African flag"></span></p>
+      <p class="site-footer__links"><a href="../index.html">Home</a><a href="../browse.html">Browse</a><a href="../about.html">About</a><a class="site-footer__top" href="#top">Back to top</a></p>
+    </div>
   </footer>
+  <nav class="tabbar" aria-label="Quick navigation">
+    <a href="../index.html"><span class="ico"><img src="../img/ui/home.png" alt="" width="105" height="106"></span>Home</a>
+    <a href="../browse.html"><span class="ico"><img src="../img/ui/book.png" alt="" width="120" height="99"></span>Browse</a>
+    <a href="../get-app.html" data-get-app><span class="ico"><img src="../img/ui/down.png" alt="" width="114" height="96"></span>App</a>
+    <a href="../about.html"><span class="ico ico--free"><img src="../img/ui/chat.png" alt="" width="81" height="73"></span>More</a>
+  </nav>
 </body>
 
 </html>

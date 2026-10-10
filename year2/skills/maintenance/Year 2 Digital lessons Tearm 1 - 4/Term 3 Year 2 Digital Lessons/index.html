@@ -17,12 +17,28 @@
 
 <body>
   <a class="skip-link" href="#main-content">Skip to main content</a>
-  <header class="site-header">
+  <header class="site-header" id="top">
     <div class="site-header__inner">
       <a class="site-logo" href="../../../../../index.html">
         <img class="site-logo__img" src="../../../../../img/logo.png" width="440" height="124" alt="mySDLR - my Supplementary Digital Learning Resources">
       </a>
-      <nav class="breadcrumb" aria-label="Breadcrumb">
+      <nav class="site-nav" aria-label="Main">
+        <a href="../../../../../index.html">Home</a>
+        <a href="../../../../../browse.html" class="is-active">Browse</a>
+        <a href="../../../../../get-app.html" data-get-app>Get the App</a>
+        <a href="../../../../../about.html">About</a>
+      </nav>
+      <form class="site-search" action="../../../../../search.html" role="search">
+        <input type="search" name="q" placeholder="Search resources..." aria-label="Search resources" autocomplete="off">
+        <button type="submit" class="ico" aria-label="Search"><img src="../../../../../img/ui/search.png" alt="" width="113" height="103"></button>
+      </form>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false" aria-label="Dark mode"><span class="theme-toggle__sun" aria-hidden="true"><img src="../../../../../img/ui/sun.png" alt="" width="165" height="144"></span><span class="theme-toggle__moon" aria-hidden="true"></span></button>
+      <button class="site-a11y ico" type="button" data-a11y-open aria-label="Open reading and accessibility tools" aria-expanded="false" aria-controls="a11y-panel"><img src="../../../../../img/ui/a11y.png" alt="" width="121" height="101"></button>
+    </div>
+  </header>
+
+  <main id="main-content" class="ag-format-container">
+    <nav class="breadcrumb crumbs" aria-label="Breadcrumb">
         <a href="../../../../../index.html">🏠 Home</a>
       <span class="sep">›</span><a href="../../../../index.html">Year 2</a>
       <span class="sep">›</span><a href="../../../index.html">Skills</a>
@@ -30,63 +46,69 @@
       <span class="sep">›</span><a href="../index.html">Year 2 Digital Lessons Term 1-4</a>
       <span class="sep">›</span><span aria-current="page">Term 3 Year 2 Digital Lessons</span>
       </nav>
-    </div>
-  </header>
-
-  <main id="main-content" class="ag-format-container">
     <div class="page-hero">
       <div class="page-hero__icon" aria-hidden="true">📅</div>
       <h1 class="page-hero__title">Term 3 Year 2 Digital Lessons</h1>
+      <p class="page-hero__lead">5 resources to explore in this section.</p>
       <div class="page-hero__rule"></div>
       <a class="page-hero__back" href="../index.html">Back to Year 2 Digital Lessons Term 1-4</a>
     </div>
     <div class="ag-courses_box">
-      <div class="ag-courses_item">
+      <div class="ag-courses_item" data-kind="pdf">
         <a href="_view/1.%20Week%201-2%20Mech%20Main_%20Tools%2C%20Service%2CTyre%2CBattery.pdf.html" class="ag-courses-item_link">
           <div class="ag-courses-item_bg"></div>
           <span class="ag-courses-item_icon" aria-hidden="true">📄</span>
           <div class="ag-courses-item_title">Week 1-2 Mech Main Tools, Service, Tyre, Battery</div>
-          <span class="ag-courses-item_tag">PDF</span>
+          <span class="ag-courses-item_tag">PDF</span><span class="ag-courses-item_meta">216 KB</span>
         </a>
       </div>
-      <div class="ag-courses_item">
+      <div class="ag-courses_item" data-kind="pdf">
         <a href="_view/2.%20Week%203-4%20Mech%20Main_%20Tyre%20Inspect%2C%20Jacks%2CBattery.pdf.html" class="ag-courses-item_link">
           <div class="ag-courses-item_bg"></div>
           <span class="ag-courses-item_icon" aria-hidden="true">📄</span>
           <div class="ag-courses-item_title">Week 3-4 Mech Main Tyre Inspect, Jacks, Battery</div>
-          <span class="ag-courses-item_tag">PDF</span>
+          <span class="ag-courses-item_tag">PDF</span><span class="ag-courses-item_meta">775 KB</span>
         </a>
       </div>
-      <div class="ag-courses_item">
+      <div class="ag-courses_item" data-kind="pdf">
         <a href="_view/3.%20Week%20%205-6%20Plumb_Tool%2CPipe%20Types%2CCut%20a%20Piece.pdf.html" class="ag-courses-item_link">
           <div class="ag-courses-item_bg"></div>
           <span class="ag-courses-item_icon" aria-hidden="true">📄</span>
           <div class="ag-courses-item_title">Week 5-6 Plumb Tool, Pipe Types, Cut a Piece</div>
-          <span class="ag-courses-item_tag">PDF</span>
+          <span class="ag-courses-item_tag">PDF</span><span class="ag-courses-item_meta">715 KB</span>
         </a>
       </div>
-      <div class="ag-courses_item">
+      <div class="ag-courses_item" data-kind="pdf">
         <a href="_view/4.%20Week%20%207%20Plumb_Rplace%20Tap%2CJoin%20PVC.pdf.html" class="ag-courses-item_link">
           <div class="ag-courses-item_bg"></div>
           <span class="ag-courses-item_icon" aria-hidden="true">📄</span>
           <div class="ag-courses-item_title">Week 7 Plumb Rplace Tap, Join Pvc</div>
-          <span class="ag-courses-item_tag">PDF</span>
+          <span class="ag-courses-item_tag">PDF</span><span class="ag-courses-item_meta">328 KB</span>
         </a>
       </div>
-      <div class="ag-courses_item">
+      <div class="ag-courses_item" data-kind="pdf">
         <a href="_view/5.%20Week%20%208%20Plumbing_Reseat%2CJoin%20Pipe%2CClean%20Drains.pdf.html" class="ag-courses-item_link">
           <div class="ag-courses-item_bg"></div>
           <span class="ag-courses-item_icon" aria-hidden="true">📄</span>
           <div class="ag-courses-item_title">Week 8 Plumbing Reseat, Join Pipe, Clean Drains</div>
-          <span class="ag-courses-item_tag">PDF</span>
+          <span class="ag-courses-item_tag">PDF</span><span class="ag-courses-item_meta">429 KB</span>
         </a>
       </div>
     </div>
   </main>
 
   <footer class="site-footer">
-    <p>Made with 💛 for LSPID learners - <a href="../../../../../index.html">Back to Home</a></p>
+    <div class="site-footer__inner">
+      <p class="site-footer__brand"><strong>mySDLR</strong><span class="site-footer__sep" aria-hidden="true">|</span>Supporting inclusive education in South Africa<span class="site-footer__flag" role="img" aria-label="South African flag"></span></p>
+      <p class="site-footer__links"><a href="../../../../../index.html">Home</a><a href="../../../../../browse.html">Browse</a><a href="../../../../../about.html">About</a><a class="site-footer__top" href="#top">Back to top</a></p>
+    </div>
   </footer>
+  <nav class="tabbar" aria-label="Quick navigation">
+    <a href="../../../../../index.html"><span class="ico"><img src="../../../../../img/ui/home.png" alt="" width="105" height="106"></span>Home</a>
+    <a href="../../../../../browse.html"><span class="ico"><img src="../../../../../img/ui/book.png" alt="" width="120" height="99"></span>Browse</a>
+    <a href="../../../../../get-app.html" data-get-app><span class="ico"><img src="../../../../../img/ui/down.png" alt="" width="114" height="96"></span>App</a>
+    <a href="../../../../../about.html"><span class="ico ico--free"><img src="../../../../../img/ui/chat.png" alt="" width="81" height="73"></span>More</a>
+  </nav>
 </body>
 
 </html>

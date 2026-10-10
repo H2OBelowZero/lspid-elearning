@@ -1,1 +1,4 @@
-# Nothing to keep beyond the default rules: no reflection, no JS-to-native bridge.
+# The site calls MainActivity.SiteBridge from JavaScript by method name.
+-keepclassmembers class * {
+    @android.webkit.JavascriptInterface <methods>;
+}

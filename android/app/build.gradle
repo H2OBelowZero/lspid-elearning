@@ -115,7 +115,7 @@ def siteSync = tasks.register('syncSiteAssets', Sync) {
         exclude 'android/**', 'installer/**', 'downloads/**', '.git/**', '.agents/**', '.claude/**',
                 '.serena/**', 'graphify-out/**', 'node_modules/**', '.netlify/**',
                 '.devserver.js', 'skills-lock.json', '.netlifyignore', '.gitignore', '_headers',
-                'README.md', '**/.DS_Store'
+                'README.md', 'PROJECT.md', 'tools/**', 'web icons/**', '**/.DS_Store'
     }
     into layout.buildDirectory.dir('siteAssets/site')
 }

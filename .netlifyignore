@@ -5,3 +5,6 @@ android/
 .devserver.js
 skills-lock.json
 .DS_Store
+tools/
+web icons/
+PROJECT.md

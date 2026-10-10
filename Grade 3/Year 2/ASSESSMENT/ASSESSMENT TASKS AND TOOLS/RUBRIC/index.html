@@ -17,12 +17,28 @@
 
 <body>
   <a class="skip-link" href="#main-content">Skip to main content</a>
-  <header class="site-header">
+  <header class="site-header" id="top">
     <div class="site-header__inner">
       <a class="site-logo" href="../../../../../index.html">
         <img class="site-logo__img" src="../../../../../img/logo.png" width="440" height="124" alt="mySDLR - my Supplementary Digital Learning Resources">
       </a>
-      <nav class="breadcrumb" aria-label="Breadcrumb">
+      <nav class="site-nav" aria-label="Main">
+        <a href="../../../../../index.html">Home</a>
+        <a href="../../../../../browse.html" class="is-active">Browse</a>
+        <a href="../../../../../get-app.html" data-get-app>Get the App</a>
+        <a href="../../../../../about.html">About</a>
+      </nav>
+      <form class="site-search" action="../../../../../search.html" role="search">
+        <input type="search" name="q" placeholder="Search resources..." aria-label="Search resources" autocomplete="off">
+        <button type="submit" class="ico" aria-label="Search"><img src="../../../../../img/ui/search.png" alt="" width="113" height="103"></button>
+      </form>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false" aria-label="Dark mode"><span class="theme-toggle__sun" aria-hidden="true"><img src="../../../../../img/ui/sun.png" alt="" width="165" height="144"></span><span class="theme-toggle__moon" aria-hidden="true"></span></button>
+      <button class="site-a11y ico" type="button" data-a11y-open aria-label="Open reading and accessibility tools" aria-expanded="false" aria-controls="a11y-panel"><img src="../../../../../img/ui/a11y.png" alt="" width="121" height="101"></button>
+    </div>
+  </header>
+
+  <main id="main-content" class="ag-format-container">
+    <nav class="breadcrumb crumbs" aria-label="Breadcrumb">
         <a href="../../../../../index.html">🏠 Home</a>
       <span class="sep">›</span><a href="../../../../index.html">Grade 3</a>
       <span class="sep">›</span><a href="../../../index.html">Year 2</a>
@@ -30,47 +46,53 @@
       <span class="sep">›</span><a href="../index.html">Assessment Tasks and Tools</a>
       <span class="sep">›</span><span aria-current="page">Rubric</span>
       </nav>
-    </div>
-  </header>
-
-  <main id="main-content" class="ag-format-container">
     <div class="page-hero">
       <div class="page-hero__icon" aria-hidden="true">📝</div>
       <h1 class="page-hero__title">Rubric</h1>
+      <p class="page-hero__lead">3 resources to explore in this section.</p>
       <div class="page-hero__rule"></div>
       <a class="page-hero__back" href="../index.html">Back to Assessment Tasks and Tools</a>
     </div>
     <div class="ag-courses_box">
-      <div class="ag-courses_item">
+      <div class="ag-courses_item" data-kind="docx">
         <a href="_view/LANGUAGE%20RUBRICS.docx.html" class="ag-courses-item_link">
           <div class="ag-courses-item_bg"></div>
           <span class="ag-courses-item_icon" aria-hidden="true">📝</span>
           <div class="ag-courses-item_title">Language Rubrics</div>
-          <span class="ag-courses-item_tag">DOCX</span>
+          <span class="ag-courses-item_tag">DOCX</span><span class="ag-courses-item_meta">23 KB</span>
         </a>
       </div>
-      <div class="ag-courses_item">
+      <div class="ag-courses_item" data-kind="docx">
         <a href="_view/Life%20skills.docx.html" class="ag-courses-item_link">
           <div class="ag-courses-item_bg"></div>
           <span class="ag-courses-item_icon" aria-hidden="true">📝</span>
           <div class="ag-courses-item_title">Life Skills</div>
-          <span class="ag-courses-item_tag">DOCX</span>
+          <span class="ag-courses-item_tag">DOCX</span><span class="ag-courses-item_meta">14 KB</span>
         </a>
       </div>
-      <div class="ag-courses_item">
+      <div class="ag-courses_item" data-kind="pdf">
         <a href="_view/Mathematics%20rubric.pdf.html" class="ag-courses-item_link">
           <div class="ag-courses-item_bg"></div>
           <span class="ag-courses-item_icon" aria-hidden="true">📄</span>
           <div class="ag-courses-item_title">Mathematics Rubric</div>
-          <span class="ag-courses-item_tag">PDF</span>
+          <span class="ag-courses-item_tag">PDF</span><span class="ag-courses-item_meta">1004 KB</span>
         </a>
       </div>
     </div>
   </main>
 
   <footer class="site-footer">
-    <p>Made with 💛 for LSPID learners - <a href="../../../../../index.html">Back to Home</a></p>
+    <div class="site-footer__inner">
+      <p class="site-footer__brand"><strong>mySDLR</strong><span class="site-footer__sep" aria-hidden="true">|</span>Supporting inclusive education in South Africa<span class="site-footer__flag" role="img" aria-label="South African flag"></span></p>
+      <p class="site-footer__links"><a href="../../../../../index.html">Home</a><a href="../../../../../browse.html">Browse</a><a href="../../../../../about.html">About</a><a class="site-footer__top" href="#top">Back to top</a></p>
+    </div>
   </footer>
+  <nav class="tabbar" aria-label="Quick navigation">
+    <a href="../../../../../index.html"><span class="ico"><img src="../../../../../img/ui/home.png" alt="" width="105" height="106"></span>Home</a>
+    <a href="../../../../../browse.html"><span class="ico"><img src="../../../../../img/ui/book.png" alt="" width="120" height="99"></span>Browse</a>
+    <a href="../../../../../get-app.html" data-get-app><span class="ico"><img src="../../../../../img/ui/down.png" alt="" width="114" height="96"></span>App</a>
+    <a href="../../../../../about.html"><span class="ico ico--free"><img src="../../../../../img/ui/chat.png" alt="" width="81" height="73"></span>More</a>
+  </nav>
 </body>
 
 </html>

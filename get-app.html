@@ -17,68 +17,86 @@
 
 <body>
   <a class="skip-link" href="#main-content">Skip to main content</a>
-  <header class="site-header">
+  <header class="site-header" id="top">
     <div class="site-header__inner">
       <a class="site-logo" href="index.html">
         <img class="site-logo__img" src="img/logo.png" width="440" height="124" alt="mySDLR - my Supplementary Digital Learning Resources">
       </a>
-      <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="index.html">🏠 Home</a>
-        <span class="sep">›</span><span aria-current="page">Get the App</span>
+      <nav class="site-nav" aria-label="Main">
+        <a href="index.html">Home</a>
+        <a href="browse.html">Browse</a>
+        <a href="get-app.html" class="is-active" aria-current="page" data-get-app>Get the App</a>
+        <a href="about.html">About</a>
       </nav>
+      <form class="site-search" action="search.html" role="search">
+        <input type="search" name="q" placeholder="Search resources..." aria-label="Search resources" autocomplete="off">
+        <button type="submit" class="ico" aria-label="Search"><img src="img/ui/search.png" alt="" width="113" height="103"></button>
+      </form>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false" aria-label="Dark mode"><span class="theme-toggle__sun" aria-hidden="true"><img src="img/ui/sun.png" alt="" width="165" height="144"></span><span class="theme-toggle__moon" aria-hidden="true"></span></button>
+      <button class="site-a11y ico" type="button" data-a11y-open aria-label="Open reading and accessibility tools" aria-expanded="false" aria-controls="a11y-panel"><img src="img/ui/a11y.png" alt="" width="121" height="101"></button>
     </div>
   </header>
 
   <main id="main-content" class="ag-format-container">
-    <div class="home-banner">
-      <div class="home-banner__emojis">📲 📚 🎓</div>
-      <span class="home-banner__eyebrow">Take it with you</span>
-      <h1>Get E-Learning for LSPID on your phone</h1>
-      <p id="get-app-subtitle">Figuring out the best way to get you the app&hellip;</p>
+    <section class="app-hero" data-fx>
+      <canvas class="hero__particles" aria-hidden="true"></canvas>
+      <div style="position:relative;z-index:1">
+        <h1>Get the App</h1>
+        <p id="get-app-subtitle">Access mySDLR anywhere, anytime — online or offline.</p>
+      </div>
+      <div class="app-hero__art" aria-hidden="true">
+        <img src="img/ui/cloud.png" alt="" width="127" height="107">
+        <img src="img/ui/down.png" alt="" width="114" height="96">
+      </div>
+    </section>
+
+    <p class="app-note" id="target-ios" hidden>The app is Android-only for now, but the full site works great right here in Safari. <a href="index.html">Open the website</a>.</p>
+
+    <div class="app-cards">
+      <article class="app-card">
+        <img src="img/ui/tablet.png" alt="" width="269" height="134">
+        <h2>Android App (Lite)</h2>
+        <p>Small download that loads the live website. Needs an internet connection.</p>
+        <a class="btn btn--green btn--down" href="downloads/lspid-elearning.apk" download>Download</a>
+      </article>
+      <article class="app-card app-card--full">
+        <img src="img/ui/tablet-buddy.png" alt="" width="216" height="176">
+        <h2>Android App (Full)</h2>
+        <p>Comes with the whole site inside, so it works fully offline.</p>
+        <a class="btn btn--orange btn--down" id="full-apk" href="downloads/mysdlr-full.apk" download aria-disabled="true">Coming soon</a>
+      </article>
     </div>
 
-    <section id="target-android" class="doc-view" hidden>
-      <div class="doc-view__stage" style="text-align:center; padding: 32px 18px;">
-        <p style="font-size:1.1rem; margin-bottom:22px;">You're on Android — tap below to download the app.</p>
-        <a class="doc-view__open" href="downloads/lspid-elearning.apk" download>Download for Android</a>
-        <p style="margin-top:22px; color:var(--ink-soft); font-size:0.92rem; max-width:46ch; margin-left:auto; margin-right:auto;">
-          Your phone may warn that this isn't from the Play Store — that's expected for an app shared directly.
-          Tap <strong>Install anyway</strong> / allow installs from this source when asked.
-        </p>
-      </div>
-    </section>
+    <div class="app-qr" id="target-desktop" hidden>
+      <img id="get-app-qr" alt="QR code linking to this page" width="120" height="120">
+      <p>Scan the QR code to get the app<small>Point your Android phone's camera at the code to open this page there.</small></p>
+      <img src="img/ui/tablet-buddy.png" alt="" width="216" height="176">
+    </div>
 
-    <section id="target-ios" class="doc-view" hidden>
-      <div class="doc-view__stage" style="text-align:center; padding: 32px 18px;">
-        <p style="font-size:1.1rem; margin-bottom:22px;">The app is Android-only for now, but the full site works great right here in Safari.</p>
-        <a class="doc-view__back" href="index.html">Open the website</a>
-      </div>
-    </section>
+    <p class="app-note" id="target-android" hidden>Your phone may warn that this isn't from the Play Store — that's expected for an app shared directly. Tap <strong>Install anyway</strong> / allow installs from this source when asked.</p>
 
-    <section id="target-desktop" class="doc-view" hidden>
-      <div class="doc-view__stage" style="text-align:center; padding: 32px 18px;">
-        <p style="font-size:1.1rem; margin-bottom:18px;">Scan this with your Android phone's camera to open this page there:</p>
-        <img id="get-app-qr" alt="QR code linking to this page" width="220" height="220"
-             style="border-radius:16px; box-shadow:var(--shadow-2); background:#fff; padding:10px;">
-        <p style="margin-top:22px;">
-          <a class="doc-view__back" href="downloads/lspid-elearning.apk" download>Download the APK file</a>
-        </p>
-      </div>
-    </section>
-
-    <section class="share-section" style="text-align:center; padding: 8px 18px 32px;">
-      <p style="color:var(--ink-soft); font-size:0.92rem; margin-bottom:14px;">Know someone who'd love this? Share the app with them.</p>
-      <p style="display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin:0;">
+    <section class="share-row">
+      <p>Know someone who'd love this? Share the app with them.</p>
+      <div>
         <a id="share-whatsapp" class="share-btn share-btn--primary" href="#" target="_blank" rel="noopener">💬 Share on WhatsApp</a>
         <a id="share-native" class="share-btn" href="#" hidden>📤 Share&hellip;</a>
         <a id="share-copy" class="share-btn" href="#">🔗 Copy link</a>
-      </p>
+      </div>
     </section>
   </main>
 
   <footer class="site-footer">
-    <p>Made with 💛 for LSPID learners - <a href="index.html">Back to Home</a></p>
+    <div class="site-footer__inner">
+      <p class="site-footer__brand"><strong>mySDLR</strong><span class="site-footer__sep" aria-hidden="true">|</span>Supporting inclusive education in South Africa<span class="site-footer__flag" role="img" aria-label="South African flag"></span></p>
+      <p class="site-footer__links"><a href="index.html">Home</a><a href="browse.html">Browse</a><a href="about.html">About</a><a class="site-footer__top" href="#top">Back to top</a></p>
+    </div>
   </footer>
+  <nav class="tabbar" aria-label="Quick navigation">
+    <a href="index.html"><span class="ico"><img src="img/ui/home.png" alt="" width="105" height="106"></span>Home</a>
+    <a href="browse.html"><span class="ico"><img src="img/ui/book.png" alt="" width="120" height="99"></span>Browse</a>
+    <a href="get-app.html" data-get-app><span class="ico"><img src="img/ui/down.png" alt="" width="114" height="96"></span>App</a>
+    <a href="about.html"><span class="ico ico--free"><img src="img/ui/chat.png" alt="" width="81" height="73"></span>More</a>
+  </nav>
 
   <script>
     (function () {
@@ -90,11 +108,17 @@
       var shareText = "Check out E-Learning for LSPID 📚 — free lessons, workbooks and activities. Get the app here:";
 
       document.getElementById('target-' + target).hidden = false;
-      document.getElementById('get-app-subtitle').textContent = {
-        android: "You're on an Android device — grab the app below.",
-        ios: "You're on an iOS device.",
-        desktop: "You're on a computer — scan the QR code below with your Android phone."
-      }[target];
+
+      // The full offline APK is large and published separately. Its button
+      // switches on by itself once downloads/mysdlr-full.apk is uploaded.
+      var full = document.getElementById('full-apk');
+      if (window.fetch && location.protocol.indexOf('http') === 0) {
+        fetch(full.getAttribute('href'), { method: 'HEAD' }).then(function (r) {
+          if (!r.ok) return;
+          full.removeAttribute('aria-disabled');
+          full.textContent = 'Download';
+        }).catch(function () {});
+      }
 
       if (target === 'desktop') {
         var qrImg = document.getElementById('get-app-qr');
@@ -124,11 +148,14 @@
       document.getElementById('share-whatsapp').href =
         'https://wa.me/?text=' + encodeURIComponent(shareText + ' ' + pageUrl);
 
-      if (navigator.share) {
+      // The Android app has no Web Share API; it shares through its own bridge
+      var app = window.SDLRApp;
+      if (navigator.share || (app && app.share)) {
         var nativeShare = document.getElementById('share-native');
         nativeShare.hidden = false;
         nativeShare.addEventListener('click', function (e) {
           e.preventDefault();
+          if (app && app.share) { app.share('E-Learning for LSPID', pageUrl); return; }
           navigator.share({ title: 'E-Learning for LSPID', text: shareText, url: pageUrl }).catch(function () {});
         });
       }
